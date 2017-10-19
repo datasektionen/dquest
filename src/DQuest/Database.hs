@@ -1,15 +1,20 @@
 {-# LANGUAGE  OverloadedStrings #-}
 module DQuest.Database  where
 
-import Database.MongoDB    (Action, Document, Document, Value, access,
-                            close, connect, delete, exclude, find,
-                            host, insertMany, master, project, rest,
+import Database.MongoDB    (Action, Document, Document, Value, Query, Selector, access,
+                            close, connect, delete, exclude, find, insert,
+                            host, insertMany, master, project, rest, findOne,
                             select, sort, (=:))
 import Control.Monad.Trans (liftIO)
 
 import System.Environment
-import Data.AesonBson
+import Data.Aeson.Bson
 import Data.Maybe
+import Data.Function
+import Data.Functor
+
+import DQuest.Data
+import Datasektionen.Types
 
 import qualified Data.Aeson as Aeson
 
@@ -29,26 +34,38 @@ run action = do
   close pipe
   return res
 
+toData = (Aeson.fromJSON . Aeson.Object . toAeson)
+toDBData a = toBson o
+  where
+    (Aeson.Object o) = Aeson.toJSON a
 
-questsBy :: Query -> IO [Quests]
+
+fuckErrors :: [Aeson.Result a] -> [a]
+fuckErrors [] = []
+fuckErrors ((Aeson.Success a):xs) = a : fuckErrors xs
+fuckErrors (_:xs) = fuckErrors xs
+
+questsBy :: Selector -> IO [Quest]
 questsBy q = run $ do
-  docs <- find q bountytable {sort = ["uploaded" := 1]} >>= rest
-  pure $ catToMaybe $ fmap (Aeson.decode . aesonify) docs
+  docs <- rest =<< find (select q bountyTable){sort = ["uploaded" =: (1::Int)]}
+  pure $ fuckErrors $ fmap toData docs
 
 activeQuests :: IO [Quest]
-activeQuests = questsBy ["closed" := False]
+activeQuests = questsBy  ["closed" =: False]
 
 closedQuests :: IO [Quest]
-closedQuests = questsBy ["closed" := True]
+closedQuests = questsBy ["closed" =: True]
 
 allQuests :: IO [Quest]
 allQuests = questsBy []
 
 
-insertQuest :: Quest -> Action IO Quest
-insertQuest = run & Aeson.encode & bsonify & insert bountytable
+insertQuest :: Quest -> Action IO Value
+insertQuest = insert bountyTable . toDBData
 
-getUser :: KthID -> Action IO (Maybe User)
-getUser kthID = run $ do
-  maybeRes <- findOne ["kthid" := kthID] userTable
-  pure $ maybeRes >>= aesonify & Aeson.decode
+{-
+getHero :: KthID -> IO (Maybe Hero)
+getHero kthID = run $ do
+  maybeRes <- findOne ["kthid" =: kthID] userTable
+  pure $ maybeRes >>= toAeson & Aeson.decode
+-}

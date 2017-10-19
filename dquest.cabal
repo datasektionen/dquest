@@ -16,15 +16,13 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     DQuest.Server
-                     , DQuest.Data.User
+                     , DQuest.Data.Hero
                      , DQuest.Data.Reward
                      , DQuest.Data.ProtoQuest
                      , DQuest.Data.Quest
-                     , MetaTv.State
                      , DQuest.Routes
                      , Datasektionen.Login
                      , Datasektionen.Pls
-                     , Data.AesonBson
 
   other-modules:
                        Datasektionen.Login.Types
@@ -60,11 +58,12 @@ library
                      , safecopy
                      , data-default
                      , mongoDB
+                     , aeson-bson
   default-language:    Haskell2010
 
 executable server
   hs-source-dirs:      app
-  main-is:             Client.hs
+  main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , dquest

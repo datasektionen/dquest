@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
-module DQuest.Data.ProtoQuests where
+module DQuest.Data.ProtoQuest where
 
 import Data.Aeson
 import GHC.Generics
@@ -9,7 +9,7 @@ import DQuest.Data.Reward
 
 data ProtoQuest = ProtoQuest
   { title      :: Text
-  , desciption :: Text
+  , description :: Text
   , issue      :: Maybe Text
   , rewards    :: [Reward]
   } deriving (Show,Read,Eq,Generic)

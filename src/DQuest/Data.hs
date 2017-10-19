@@ -1,8 +1,10 @@
 {-| Common name for both of the subdirs |-}
 
-module MetaTv.Data
+module DQuest.Data
   ( module X
   ) where
 
-import MetaTv.Data.Common as X
-import MetaTv.Data.Context as X
+import DQuest.Data.Quest as X (Quest)
+import DQuest.Data.ProtoQuest as X (ProtoQuest)
+import DQuest.Data.Hero as X (Hero)
+import DQuest.Data.Reward as X (Reward)

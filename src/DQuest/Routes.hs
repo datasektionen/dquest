@@ -37,7 +37,7 @@ type JsonAPI = "quest" (:>  QuestLookup
                        :<|> QuestNew
                          )
 
-type Index =  Rawx
+type Index =  Raw
 type PublicDir = "public" :> GET '[HTML] Blob
 
 type ServerApi = JsonAPI :<|> Index :<|> PublicDir

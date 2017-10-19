@@ -48,7 +48,6 @@ packages:
 - './'
 - location
 extra-deps: [
-aeson-bson-0.3.0
 ]
 # Override default flag values for local packages and extra-deps
 flags: {}
