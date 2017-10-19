@@ -1,0 +1,76 @@
+name:                dquest
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/black0range/dquest#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Tomas Möre
+maintainer:          tomas.o.more@gmail.com
+copyright:           MIT
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     DQuest.Server
+                     , DQuest.Data.User
+                     , DQuest.Data.Reward
+                     , DQuest.Data.ProtoQuest
+                     , DQuest.Data.Quest
+                     , MetaTv.State
+                     , DQuest.Routes
+                     , Datasektionen.Login
+                     , Datasektionen.Pls
+                     , Data.AesonBson
+
+  other-modules:
+                       Datasektionen.Login.Types
+                     , Datasektionen.Login.Internal
+                     , Servant.Ext
+
+  build-depends:       base >= 4.7 && < 5
+                     , aeson
+                     , servant
+                     , servant-server
+                     , servant-client
+                     , wai
+                     , warp
+                     , aeson
+                     , time
+                     , mtl
+                     , directory
+                     , filepath
+                     , http-media
+                     , attoparsec
+                     , base-compat
+                     , aeson-compat
+                     , bytestring
+                     , http-types
+                     , text
+                     , uri-encode
+                     , comonad
+                     , safe
+                     , http-client
+                     , http-client-tls
+                     , network-uri
+                     , containers
+                     , safecopy
+                     , data-default
+                     , mongoDB
+  default-language:    Haskell2010
+
+executable server
+  hs-source-dirs:      app
+  main-is:             Client.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , dquest
+  default-language:    Haskell2010
+
+
+source-repository head
+  type:     git
+  location: https://github.com/black0range/dquest
