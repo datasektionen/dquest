@@ -14,10 +14,10 @@ import Prelude.Compat
 import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
 
-import Servant
-import Servant.Ext
+import Servant.API
+import Servant.Ext.Types
 
-import Datasektionen.Login
+import Datasektionen.Types
 import DQuest.Data
 
 import Data.ByteString (ByteString)

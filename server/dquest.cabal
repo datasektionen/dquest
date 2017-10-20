@@ -16,32 +16,27 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     DQuest.Server
-                     , DQuest.Data.Hero
-                     , DQuest.Data.Reward
-                     , DQuest.Data.ProtoQuest
-                     , DQuest.Data.Quest
-                     , DQuest.Routes
-                     , Datasektionen.Login
-                     , Datasektionen.Pls
 
   other-modules:
-                       Datasektionen.Login.Types
-                     , Datasektionen.Login.Internal
-                     , Servant.Ext
+                Datasektionen.Login.Types
+              , Datasektionen.Login.Internal
+              , Datasektionen.Login
+              , Datasektionen.Pls
+              , Servant.Ext
 
   build-depends:       base >= 4.7 && < 5
                      , aeson
+                     , aeson-bson
                      , servant
                      , servant-server
                      , servant-client
                      , wai
                      , warp
-                     , aeson
                      , time
                      , mtl
                      , directory
                      , filepath
-                     , http-media
+
                      , attoparsec
                      , base-compat
                      , aeson-compat
@@ -49,8 +44,6 @@ library
                      , http-types
                      , text
                      , uri-encode
-                     , comonad
-                     , safe
                      , http-client
                      , http-client-tls
                      , network-uri
@@ -58,7 +51,7 @@ library
                      , safecopy
                      , data-default
                      , mongoDB
-                     , aeson-bson
+
   default-language:    Haskell2010
 
 executable server

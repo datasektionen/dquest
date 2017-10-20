@@ -46,9 +46,11 @@ setup-info:
 # will not be run. This is useful for tweaking upstream packages.
 packages:
 - './'
-- 'lib/aesonbson'
+- '../lib/aesonbson'
+- '../shared'
 extra-deps: [
-aeson-bson-0.3.1
+aeson-bson-0.3.1,
+shared-0.1.0.0
 ]
 # Override default flag values for local packages and extra-deps
 flags: {}

@@ -37,7 +37,8 @@ resolver: lts-9.8
 # will not be run. This is useful for tweaking upstream packages.
 packages:
 - './'
-- 'lib/aesonbson'
+- '../lib/aesonbson'
+- '../shared'
 extra-deps: [
 aeson-bson-0.3.1
 ]

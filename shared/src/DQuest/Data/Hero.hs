@@ -8,9 +8,10 @@ import Data.Text (Text)
 
 import Data.Time.Clock (UTCTime)
 
-import Datasektionen.Login (KthID)
 import DQuest.Data.Reward
 import Data.List
+
+import Datasektionen.Types
 
 type Username = Text
 type ID = KthID

@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import DQuest.Data.Reward
 
 main :: IO ()
-main = someFunc
+main = print $ XP 10
