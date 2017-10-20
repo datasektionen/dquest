@@ -1,11 +1,47 @@
 # dquest
-
-dQuest is a blablabla
-
-
+dQuest is a service for requesting work on projects.  Better
+explanation will come whenever someone feels like writing it.
 
 
 
+
+## Shit you gotta know
+Well first of this is written in haskell and you probably should know
+the basics of haskell before you continue.
+
+### Structure
+Because this uses haskell for every part of the service (server and
+client) The project is split into three parts "client" "server" and
+"shared".  This is since ghcjs is unable to compile some haskell code
+that are only available to native environments.
+#### Client
+Contains all code specific for the frontend. Aka shit that gets
+compiled into javascript. This is written in haskell using ghcjs.
+
+#### Server
+Contains all code specific only to the server
+
+#### Shared
+Contains all diffent data types for the project that isn't specific to either the server or the client. That is both parts are able to use them.
+
+### Stack
+This project uses stack as a build and package management tool. Read
+up on the strucutre there. But basicly there are cabal files that
+contain any depencencies and defenitions of the libraries and
+exeutables. As well as a stack.yaml file where specifics about each
+part of the project is written.
+
+
+
+### Servant
+Servant is the webserver and "framework" used it the project. It
+contains a few confusing things for the new and medium experienced
+haskeller alike. There is a great tutorial here:
+http://haskell-servant.readthedocs.io/en/stable/
+
+The type for the API can be found in the shared package
+
+### Ghcjs
 
 ## Development
 Sadly there are a few quirks to build all the code in the project as
