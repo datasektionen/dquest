@@ -9,12 +9,8 @@ import Control.Monad.Trans (liftIO)
 
 import System.Environment
 import Data.Aeson.Bson
-import Data.Maybe
-import Data.Function
-import Data.Functor
 
 import DQuest.Data
-import Datasektionen.Types
 
 import qualified Data.Aeson as Aeson
 

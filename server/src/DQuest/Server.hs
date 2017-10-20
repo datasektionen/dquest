@@ -21,6 +21,8 @@ import Datasektionen.Login
 
 import DQuest.Data
 import DQuest.Routes
+import DQuest.Data.Quest (Quest)
+import qualified DQuest.Data.Quest as Quest
 
 import qualified DQuest.Database as DB
 
@@ -31,11 +33,11 @@ dquestWebApp = serve proxy dquestServer
 
 
 dquestServer = jsonServer
-           :<|> serveFile "webdata/index.html"
+           :<|> (serveFile "webdata/index.html")
            :<|> serveDirectoryWebApp "webdata"
 
 
-jsonServer = questServer :<|>
+jsonServer = questServer
 
 questServer =  questLookupServer
           :<|> questNewServer
@@ -44,12 +46,7 @@ questLookupServer =  liftIO DB.activeQuests
                 :<|> liftIO DB.closedQuests
                 :<|> liftIO DB.allQuests
 
-questNewServer protoQuest{..} = do
+questNewServer protoQuest = do
   error "Not implemented"
   where
-    newQuest = Quest
-      { title = protoTitle
-      , description = protoDesciption
-      , issue = protoIssue
-      , comments = []
-      }
+    newQuest = Quest.fromProtoQuest protoQuest
