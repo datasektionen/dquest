@@ -31,12 +31,15 @@ library
                      , servant
                      , servant-server
                      , servant-client
+                     , shared
+                     , safe
                      , wai
                      , warp
                      , time
                      , mtl
                      , directory
                      , filepath
+                     , http-media
                      , attoparsec
                      , base-compat
                      , aeson-compat
