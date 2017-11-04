@@ -1,19 +1,22 @@
-{-| This module exists because of missing standard html capabilites in
-Servants main module
+{-| This module exists to extend the standard seravant api since it
+doesn't have a simple "ServeFile" function. Note that this also
+depends on the Servant.Ext.Types as defined in the "shared" module
 -}
 {-# LANGUAGE OverloadedStrings, MultiParamTypeClasses #-}
 module Servant.Ext (module Types, serveFile) where
 
 
-import Network.HTTP.Media ((//))
 import Data.ByteString.Lazy as BL
 import System.Directory
 import Servant.Ext.Types as Types
-
+import Servant
 import Control.Monad.Trans
 import Control.Monad
 
 
+
+-- | Given a filepath it will serve the contents of that file as a
+-- Blob, Blob is defined in Server.Ext.Types.
 serveFile :: FilePath -> Handler Blob
 serveFile fp = do
   exists <- liftIO $ doesFileExist fp
