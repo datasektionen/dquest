@@ -15,9 +15,10 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib
+  exposed-modules:     Test
   build-depends:       base >= 4.7 && < 5
                      , shared
+                     , reflex-dom == 0.4
   default-language:    Haskell2010
 
 executable client-exe
@@ -27,6 +28,7 @@ executable client-exe
   build-depends:       base
                      , client
                      , shared
+
   default-language:    Haskell2010
 
 test-suite client-test
