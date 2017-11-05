@@ -15,3 +15,12 @@ data ProtoQuest = ProtoQuest
   } deriving (Show,Read,Eq,Generic)
 instance ToJSON ProtoQuest
 instance FromJSON ProtoQuest
+
+
+dummy :: ProtoQuest
+dummy = ProtoQuest
+        { title = "Test quest"
+        , description = "This is a test description"
+        , issue = Nothing
+        , rewards = []
+        }

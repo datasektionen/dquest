@@ -1,6 +1,13 @@
 module Main where
 
-import DQuest.Data.Reward
+import qualified DQuest.Data.Dummies as Dummy
+
+import Display
+
+import Reflex.Dom
+
 
 main :: IO ()
-main = print $ XP 10
+main = mainWidget $ do
+  heroWidget Dummy.hero1
+  el "div" $ mapM_ questWidget Dummy.quests

@@ -26,7 +26,6 @@ import Data.ByteString (ByteString)
 
 -}
 
-
 type QuestLookup =    "open"   :> Get '[JSON] [Quest]
                  :<|> "all"    :> Get '[JSON] [Quest]
                  :<|> "closed" :> Get '[JSON] [Quest]
@@ -41,6 +40,6 @@ type JsonAPI = "quest" :> (  QuestLookup
                           )
 
 type Index = Get '[HTML] Blob
-type PublicDir = "public" :> Raw
+type PublicDir = Raw
 
 type ServerApi = JsonAPI :<|> Index :<|> PublicDir

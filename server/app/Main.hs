@@ -1,4 +1,11 @@
+{-| Author: Tomas Möre 2017
+
+|-}
+
 module Main where
 
+import DQuest.Server (serveOn)
+
+
 main :: IO ()
-main = putStrLn "Hello world"
+main = serveOn 8080

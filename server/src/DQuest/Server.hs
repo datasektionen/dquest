@@ -1,3 +1,13 @@
+{-| Author: Tomas Möre 2017
+
+This module serves as the core for the server application.  All
+functions that serves some part of the api should be defined here (At
+least as wrappers for other function.
+
+Remember that this uses the Sevant API system. If you do now know what
+this is. Read the docs!
+-}
+
 {-# LANGUAGE DataKinds, FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -6,45 +16,52 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module DQuest.Server where
+module DQuest.Server (dQuestWebApp, serveOn) where
 
 import Prelude ()
 import Prelude.Compat
 
 import Control.Monad.Except
-import Data.Maybe
-import qualified Data.ByteString as BS
-import Network.Wai.Handler.Warp
 import Servant
 import Servant.Ext
-import Datasektionen.Login
 
-import DQuest.Data
 import DQuest.Routes
-import DQuest.Data.Quest (Quest)
 import qualified DQuest.Data.Quest as Quest
 
 import qualified DQuest.Database as DB
 
-dquestWebApp :: Application
-dquestWebApp = serve proxy dquestServer
+
+import Network.Wai.Handler.Warp
+
+serveOn :: Port -> IO ()
+serveOn port = run port dQuestWebApp
+
+-- | Serves the server
+dQuestWebApp :: Application
+dQuestWebApp = serve proxy dQuestServer
   where
     proxy =  Proxy :: Proxy ServerApi
 
 
-dquestServer = jsonServer
-           :<|> (serveFile "webdata/index.html")
-           :<|> serveDirectoryWebApp "webdata"
+dQuestServer = jsonServer
+           :<|> serveFile "webdata/index.html"
+           :<|> (lift (liftIO (print "asdf")) >> serveDirectoryWebApp "webdata/")
 
 
 jsonServer = questServer
 
-questServer =  questLookupServer
+questServer =  qQuestLookupDummyServer
           :<|> questNewServer
 
-questLookupServer =  liftIO DB.activeQuests
-                :<|> liftIO DB.closedQuests
-                :<|> liftIO DB.allQuests
+qQuestLookupDummyServer =
+  liftIO dq :<|> liftIO dq :<|> liftIO dq
+  where
+    dq =  ((:[]) <$> Quest.dummy)
+
+
+-- questLookupServer =  liftIO DB.activeQuests
+--                 :<|> liftIO DB.closedQuests
+--                 :<|> liftIO DB.allQuests
 
 questNewServer protoQuest = do
   error "Not implemented"

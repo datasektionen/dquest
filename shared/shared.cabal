@@ -20,6 +20,7 @@ library
                      , DQuest.Data.ProtoQuest
                      , DQuest.Data.Quest
                      , DQuest.Data.Comment
+                     , DQuest.Data.Dummies
                      , DQuest.Routes
                      , DQuest.Data
                      , Datasektionen.Types

@@ -2,7 +2,13 @@
 dQuest is a service for requesting work on projects.  Better
 explanation will come whenever someone feels like writing it.
 
+Some oe the libraries used for the frontend is experimental and not
+even proper hackage packages but pulled directly from gits deleopment
+branch. Getting this to work on your local box can be hell.
 
+Specificly using ghcjs as it takes some time to compile the first
+time. This is since it compiles most of haskells core libraries to
+javasript first.
 
 
 ## Shit you gotta know
@@ -32,6 +38,10 @@ exeutables. As well as a stack.yaml file where specifics about each
 part of the project is written.
 
 
+### ghcjs
+
+#### reflex-dom
+https://github.com/reflex-frp/reflex-platform
 
 ### Servant
 Servant is the webserver and "framework" used it the project. It
