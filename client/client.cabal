@@ -15,11 +15,14 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Display
+  exposed-modules:     Display, Admin, Util, ServerApi, Views
   build-depends:       base >= 4.7 && < 5
                      , shared
                      , reflex-dom == 0.4
                      , text
+                     , lens
+                     , containers
+                     , aeson
   default-language:    Haskell2010
   default-extensions: OverloadedStrings
 
@@ -30,7 +33,9 @@ executable client-exe
   build-depends:       base
                      , client
                      , shared
-                     ,  reflex-dom == 0.4
+                     , reflex-dom == 0.4
+                     , aeson
+                     , text
 
   default-language:    Haskell2010
   default-extensions: OverloadedStrings

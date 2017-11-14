@@ -33,13 +33,23 @@ type QuestLookup =    "open"   :> Get '[JSON] [Quest]
 type QuestKey = Capture "title" Text :> Capture "date" UTCTime
 -- type QuestModify = "modify" :> "description" :> QuestKey :> ReqBody '[JSON] Text :> POST '[JSON] Bool
 
-type QuestNew = "new" :>  ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
+type QuestNew = "new" :> ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
 
-type JsonAPI = "quest" :> (  QuestLookup
-                        :<|> QuestNew
-                          )
+type JsonAPI = "quest" :> ( QuestLookup :<|> QuestNew)
+
 
 type Index = Get '[HTML] Blob
 type PublicDir = Raw
 
 type ServerApi = JsonAPI :<|> Index :<|> PublicDir
+
+-- type ServerApi = "quest" :>
+--     (    "open"   :> Get '[JSON] [Quest]
+--     :<|> "all"    :> Get '[JSON] [Quest]
+--     :<|> "closed" :> Get '[JSON] [Quest]
+--     :<|> "new"    :> ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
+--     )
+--     :<|> Get '[HTML] Blob
+--     :<|> Raw
+
+-- curl -i -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8080/quest/new

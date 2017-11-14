@@ -30,6 +30,7 @@ import qualified DQuest.Data.Quest as Quest
 
 import qualified DQuest.Database as DB
 
+import qualified DQuest.Data.Dummies as Dummy
 
 import Network.Wai.Handler.Warp
 
@@ -45,18 +46,16 @@ dQuestWebApp = serve proxy dQuestServer
 
 dQuestServer = jsonServer
            :<|> serveFile "webdata/index.html"
-           :<|> (lift (liftIO (print "asdf")) >> serveDirectoryWebApp "webdata/")
+           :<|> serveDirectoryWebApp "webdata/"
 
 
 jsonServer = questServer
 
-questServer =  qQuestLookupDummyServer
+questServer =  qQuestLookupServer
           :<|> questNewServer
 
-qQuestLookupDummyServer =
-  liftIO dq :<|> liftIO dq :<|> liftIO dq
-  where
-    dq =  ((:[]) <$> Quest.dummy)
+qQuestLookupServer =
+   liftIO DB.activeQuests :<|> liftIO DB.allQuests :<|>  liftIO DB.closedQuests
 
 
 -- questLookupServer =  liftIO DB.activeQuests
@@ -64,6 +63,7 @@ qQuestLookupDummyServer =
 --                 :<|> liftIO DB.allQuests
 
 questNewServer protoQuest = do
+  liftIO $ print protoQuest
   error "Not implemented"
   where
     newQuest = Quest.fromProtoQuest protoQuest

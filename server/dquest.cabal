@@ -26,12 +26,12 @@ library
               , Servant.Ext
 
   build-depends:       base >= 4.7 && < 5
-                     , aeson
+                     , shared
+                     , aeson  >= 0.11 && < 0.12
                      , aeson-bson
                      , servant
                      , servant-server
                      , servant-client
-                     , shared
                      , safe
                      , wai
                      , warp
@@ -48,8 +48,8 @@ library
                      , safe
                      , text
                      , uri-encode
-                     , http-client
-                     , http-client-tls
+                     , http-client  == 0.5.7.0
+                     , http-client-tls == 0.3.5.1
                      , network-uri
                      , containers
                      , safecopy

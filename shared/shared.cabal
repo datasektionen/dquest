@@ -1,5 +1,5 @@
 name:                shared
-version:             0.1.0.0
+version:             0.1.0.2
 -- synopsis:
 -- description:
 homepage:            https://github.com/githubuser/shared#readme
@@ -25,9 +25,10 @@ library
                      , DQuest.Data
                      , Datasektionen.Types
                      , Servant.Ext.Types
+
   build-depends:       base >= 4.7 && < 5
                      , text
-                     , aeson
+                     , aeson == 0.11.3.0
                      , time
                      , servant
                      , bytestring

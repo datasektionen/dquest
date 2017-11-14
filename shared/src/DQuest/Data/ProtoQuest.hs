@@ -11,7 +11,7 @@ data ProtoQuest = ProtoQuest
   { title      :: Text
   , description :: Text
   , issue      :: Maybe Text
-  , rewards    :: [Reward]
+  , rewards    :: [(Quantity, Reward)]
   } deriving (Show,Read,Eq,Generic)
 instance ToJSON ProtoQuest
 instance FromJSON ProtoQuest

@@ -22,7 +22,7 @@ data Quest = Quest
              , issue       :: Maybe Text
              , comments    :: [Comment]
              , assigned    :: [KthID]
-             , rewards     :: [Reward]
+             , rewards     :: [(Quantity, Reward)]
              , uploaded    :: UTCTime
              , closed      :: Maybe (UTCTime, [KthID])
              } deriving (Show,Read,Eq,Generic)

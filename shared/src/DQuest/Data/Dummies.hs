@@ -17,16 +17,19 @@ import Data.Time.Calendar
 dayZero = (UTCTime (ModifiedJulianDay 0) 0)
 
 hero1 :: Hero
-hero1 = Hero.Hero "tmore" "tmore the great" dayZero [XP 1000]
+hero1 = Hero.Hero "tmore" "tmore the great" dayZero [(1000, XP)]
 
 hero2 :: Hero
-hero2 = Hero.Hero "janiuk" "djul" dayZero [XP 20]
+hero2 = Hero.Hero "janiuk" "djul" dayZero [(20, XP)]
 
 hero3 :: Hero
-hero3 = Hero.Hero "pernyb" "Ze pär" dayZero [XP 0]
+hero3 = Hero.Hero "pernyb" "Ze pär" dayZero [(10, XP)]
+
+hero4 :: Hero
+hero4 = Hero.Hero "jakarv" "Jakob ze pleb" dayZero []
 
 heroes :: [Hero]
-heroes = [hero1, hero2, hero3]
+heroes = [hero1, hero2, hero3, hero4]
 
 quest1 = Quest
   { Quest.title = "Testquest1"
@@ -34,6 +37,9 @@ quest1 = Quest
   , Quest.issue = Nothing
   , Quest.assigned = [Hero.kthid hero3]
   , Quest.uploaded = dayZero
+  , Quest.rewards = []
+  , Quest.tags = []
+  , Quest.comments = []
   , Quest.closed = Nothing
   }
 
@@ -43,6 +49,9 @@ quest2 = Quest
   , Quest.issue = Nothing
   , Quest.assigned = [Hero.kthid hero1, Hero.kthid hero2]
   , Quest.uploaded = dayZero
+  , Quest.rewards = []
+  , Quest.tags = []
+  , Quest.comments = []
   , Quest.closed = Nothing
   }
 
@@ -52,6 +61,9 @@ quest3 = Quest
   , Quest.issue = Nothing
   , Quest.assigned = []
   , Quest.uploaded = dayZero
+  , Quest.rewards = []
+  , Quest.tags = []
+  , Quest.comments = []
   , Quest.closed = Nothing
   }
 
@@ -61,6 +73,9 @@ quest4 = Quest
   , Quest.issue = Nothing
   , Quest.assigned = []
   , Quest.uploaded = dayZero
+  , Quest.rewards = []
+  , Quest.tags = []
+  , Quest.comments = []
   , Quest.closed = Just (dayZero, [Hero.kthid hero1])
   }
 

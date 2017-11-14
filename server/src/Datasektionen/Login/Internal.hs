@@ -55,7 +55,10 @@ loginLink callback = "https://" <> loginBaseHost <> "/" <> toUrlPiece link <> "/
 
 type VerifyApi = "verify":> Capture "token" (JsonExtention KthToken) :> QueryParam "api_key" LoginApiKey :>  Get '[JSON] User
 
-verify = client (Proxy :: Proxy VerifyApi)
+verifyApi = (Proxy :: Proxy VerifyApi)
+
+verify = client verifyApi
+
 
 verifyToken :: LoginApiKey -> KthToken -> IO (Maybe User)
 verifyToken apikey token = do

@@ -20,16 +20,21 @@ data Hero = Hero
   { kthid :: KthID
   , alias :: Username
   , lastVisit :: UTCTime
-  , backpack  :: [Reward]
+  , backpack  :: [(Quantity, Reward)]
   } deriving (Show,Read,Eq,Generic)
 instance ToJSON Hero
 instance FromJSON Hero
 
 
+findReward :: Reward -> Hero -> Maybe (Quantity, Reward)
+findReward requestedReward =
+  find (\ (_,r) -> if requestedReward == r
+                   then True
+                   else False) .
+  backpack
+
 totalEXP :: Hero -> EXP
-totalEXP = maybe 0 (\ (XP n) -> n) .
-           find (\ r -> case r of XP _ -> True; _ -> False) .
-           backpack
+totalEXP = maybe 0 fst . findReward XP
 
 level :: Hero -> Level
 level =  (`div`100) . totalEXP

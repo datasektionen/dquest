@@ -15,7 +15,7 @@
 # resolver:
 #  name: custom-snapshot
 #  location: "./custom-snapshot.yaml"
-resolver: lts-9.8
+resolver: lts-9.12
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -39,10 +39,12 @@ packages:
 - './'
 - '../lib/aesonbson'
 - '../shared'
-extra-deps: [
- aeson-bson-0.3.1,
- shared-0.1.0.1
-]
+extra-deps:
+- aeson-0.11.3.0
+- aeson-bson-0.3.1
+- http-client-tls-0.3.5.1
+- http-client-0.5.7.0
+- http-types-0.9.1
 # Override default flag values for local packages and extra-deps
 flags: {}
 
