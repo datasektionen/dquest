@@ -35,7 +35,9 @@ type QuestKey = Capture "title" Text :> Capture "date" UTCTime
 
 type QuestNew = "new" :> ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
 
-type JsonAPI = "quest" :> ( QuestLookup :<|> QuestNew)
+type QuestUpdate = "update" :> Capture "dbID" :> Post '[JSON]  Bool
+
+type JsonAPI = "quest" :> ( QuestLookup :<|> QuestNew :<|> QuestUpdate)
 
 
 type Index = Get '[HTML] Blob

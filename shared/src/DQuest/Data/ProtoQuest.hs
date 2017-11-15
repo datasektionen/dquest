@@ -16,6 +16,13 @@ data ProtoQuest = ProtoQuest
 instance ToJSON ProtoQuest
 instance FromJSON ProtoQuest
 
+empty :: ProtoQuest
+empty = ProtoQuest
+        { title = mempty
+        , description = mempty
+        , issue = Nothing
+        , rewards = []
+        }
 
 dummy :: ProtoQuest
 dummy = ProtoQuest
