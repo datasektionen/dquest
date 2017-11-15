@@ -43,7 +43,6 @@ dQuestWebApp = serve proxy dQuestServer
   where
     proxy =  Proxy :: Proxy ServerApi
 
-
 dQuestServer = jsonServer
            :<|> serveFile "webdata/index.html"
            :<|> serveDirectoryWebApp "webdata/"
@@ -52,15 +51,14 @@ dQuestServer = jsonServer
 jsonServer = questServer
 
 questServer =  qQuestLookupServer
-          :<|> (questNewServer :<|> questUpdateServer)
+          :<|> questNewServer
+          :<|> questUpdateServer
 
 qQuestLookupServer =
-   liftIO DB.activeQuests :<|> liftIO DB.allQuests :<|>  liftIO DB.closedQuests
+        liftIO DB.activeQuests
+   :<|> liftIO DB.allQuests
+   :<|> liftIO DB.closedQuests
 
-
--- questLookupServer =  liftIO DB.activeQuests
---                 :<|> liftIO DB.closedQuests
---                 :<|> liftIO DB.allQuests
 
 questNewServer protoQuest = do
   liftIO $ print protoQuest
@@ -69,6 +67,6 @@ questNewServer protoQuest = do
     newQuest = Quest.fromProtoQuest protoQuest
 
 
-questUpdateServer dbID protoQuest= do
+questUpdateServer dbID protoQuest = do
   liftIO $ print $ (dbID, protoQuest)
   error "Not implemented"

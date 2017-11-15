@@ -5,7 +5,8 @@ import DQuest.Data.Quest (Quest)
 import DQuest.Data.ProtoQuest
 import DQuest.Data.Reward
 
-import Display
+import Display.Quest
+
 import ServerApi
 
 import Reflex.Dom
@@ -44,7 +45,7 @@ newQuestForm = el "div" $ do
 
 
 -- Might be the most overly compicated heap of garbage i've ever written.
-rewardTable :: forall t m . MonadWidget t m => m (Dynamic t [(Quantity, Reward)])
+rewardTable :: MonadWidget t m => m (Dynamic t [(Quantity, Reward)])
 rewardTable = el "div" $ do
   newRewardEvent <- el "div" $ newRewardBox
   rec (currentCreate :: Dynamic t [(Quantity, Reward)], removeEvents :: Event t Reward) <- el "ul" $ do

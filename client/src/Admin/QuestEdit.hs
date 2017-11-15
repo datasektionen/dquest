@@ -1,14 +1,19 @@
-{-# LANGUAGE RecursiveDo, OverloadedStrings, RankNTypes, ScopedTypeVariables  #-}
+{-|
+Author: Tomas Möre 2017
+
+This module defines diffrent widgets for creating and editing Quests.
+-}
+{-# LANGUAGE RecursiveDo, OverloadedStrings, ScopedTypeVariables  #-}
 module Admin.QuestEdit where
 
 import DQuest.Data.Quest (Quest)
-
+import qualified DQuest.Data.Quest as Quest
 import DQuest.Data.ProtoQuest (ProtoQuest)
 import DQuest.Data.ProtoQuest as PQ
 
 import DQuest.Data.Reward
 
-import Display
+import Display.Quest (questWidget)
 import ServerApi
 
 import Reflex.Dom
@@ -27,7 +32,7 @@ import Control.Applicative
 import Control.Monad
 import Data.Maybe
 
-import Util (dataInput)
+import Util (dataInput, switchButton)
 
 -- | Quickhand for creating a new quest. When the event quest save
 -- hase been triggered it sends a request to the server. If this
@@ -35,8 +40,30 @@ import Util (dataInput)
 newQuestForm :: MonadWidget t m => m (Event t Quest)
 newQuestForm = el "div" $ do
   editEvent <- questEdit PQ.empty
-  resultEvent <- createNewQuest createEvent
+  resultEvent <- createNewQuest editEvent
   pure $ fmapMaybe id resultEvent
+
+-- | Wrapper for editQuest for sending an update request to the
+-- server. The returned event fires when the update succeeded.
+questEditAndSave :: MonadWidget t m => Quest -> m (Event t Quest)
+questEditAndSave quest = do
+  saveEvent <- questEdit protoQuest
+  updateQuest (fmap (\ p -> (p,dbID)) saveEvent)
+  where
+    (protoQuest, dbID) = Quest.toProtoQuest quest
+
+
+-- | Provides a small wrapper for toggelable editing of
+-- quests. However it doesn't do any actual updating of the provided
+-- quest but the returned event will fire when a proper edit and save
+-- click has been made
+editQuest :: MonadWidget t m => Quest -> m (Event t Quest)
+editQuest quest = el "div" $ do
+  editEvent <- switchButton "Edit" "Cancel"
+  foldDynMaybe (\ b -> if b
+                 then questWidget quest
+                 else questEdit (fst $ ))
+  widgetHold (questWidget quest)
 
 
 {-| Quest edit shows the content of a quest and provides the ui
@@ -58,10 +85,9 @@ questEdit proto = el "div" $ do
   buttonEvent <- button "Save quest"
   pure $ tagPromptlyDyn protoQuestDyn buttonEvent
 
-
-
-
--- Might be the most overly compicated heap of garbage i've ever written.
+-- | A widget for editing and creating new rewards. First argument is
+-- the default values of the list. Waring to people editing this. It
+-- is kinda complicated.
 rewardTable :: MonadWidget t m => [(Quantity, Reward)] -> m (Dynamic t [(Quantity, Reward)])
 rewardTable defaultRewards = el "div" $ do
   newRewardEvent <- el "div" $ newRewardBox
@@ -77,15 +103,9 @@ rewardTable defaultRewards = el "div" $ do
   display =<< foldDyn (:) [] removeEvents
   pure $ traceDynWith show $ currentCreate
 
--- let changeEvent = leftmost [Left <$> removeEvents, Right <$> newRewardEvent]
---             createdRewards = foldDyn (\ change l -> case change of
---                                          Left e -> filter ((/=e) . snd) l
---                                          Right t@(q,r) -> t:l) [] changeEvent
---             displayList = mapM (uncurry rewardListElement)  <$> createdRewards
---         del <- widgetHold (pure never) (dyn displayList)
---         pure (createdRewards, updated del)
-
-rewardListElement :: forall t m . MonadWidget t m =>  Quantity -> Reward -> m (Event t Reward)
+-- | widgetFor displaying a reward. This includes a delete button. The
+-- returned event fires when a specific "reward delete button" is pressed.
+rewardListElement :: MonadWidget t m => Quantity -> Reward -> m (Event t Reward)
 rewardListElement n r = el "li" $ do
   display (constDyn n)
   text "x"
@@ -94,14 +114,14 @@ rewardListElement n r = el "li" $ do
   let deleteEvent = traceEvent "Potato"  $ tagPromptlyDyn (constDyn r) b
   pure deleteEvent
 
-rewardDisplay :: forall t m . MonadWidget t m => Reward -> m ()
+rewardDisplay :: MonadWidget t m => Reward -> m ()
 rewardDisplay XP = text "XP"
-rewardDisplay (Currency name) = text name >> text "- currenc"
+rewardDisplay (Currency name) = text name >> text "- currency"
 rewardDisplay (Item name url) = text name >> text "- item"
 rewardDisplay (Other name) = text name >> text "- other"
 
 
-newRewardBox :: forall t m . MonadWidget t m => m (Event t (Quantity,Reward))
+newRewardBox :: MonadWidget t m => m (Event t (Quantity,Reward))
 newRewardBox = el "div" $ do
   choiceDyn <- rewardDropdown
   quantityDyn <- dataInput
@@ -119,11 +139,11 @@ defaultRewards = Map.fromList [ (XP, "XP")
                               , (Other "", "Something else")
                               ]
 
-rewardDropdown ::  forall t m . MonadWidget t m => m (Dynamic t Reward)
+rewardDropdown :: MonadWidget t m => m (Dynamic t Reward)
 rewardDropdown = _dropdown_value <$> dropdown XP (constDyn defaultRewards) def
 
 
-rewardDataInput :: forall t m . MonadWidget t m => Reward -> m (Dynamic t (Maybe Reward))
+rewardDataInput :: MonadWidget t m => Reward -> m (Dynamic t (Maybe Reward))
 rewardDataInput XP = pure $ constDyn (Just XP)
 rewardDataInput (Currency _) = el "div" $ do
   text "Name of currency: "
@@ -142,10 +162,7 @@ rewardDataInput (Other _) = el "div" $ do
   pure $ fmap Other <$> textDyn
 
 
-nonEmptyTextInput :: forall t m . MonadWidget t m => m (Dynamic t (Maybe Text))
+nonEmptyTextInput :: MonadWidget t m => m (Dynamic t (Maybe Text))
 nonEmptyTextInput = do
   input <- textInput def
   pure $ fmap (\ t -> if Text.null t then Nothing else Just t) (input^.textInput_value)
-
-
---rewardDisplay :: Event t (Maybe (Reward,)

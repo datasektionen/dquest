@@ -5,8 +5,11 @@ module Views where
 import qualified DQuest.Data.Dummies as Dummy
 import DQuest.Data.Quest (Quest)
 
-import Display
-import Admin
+
+import Display.Hero
+import Display.Quest
+import Admin.View
+
 import ServerApi
 
 import Reflex.Dom

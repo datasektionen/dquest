@@ -1,24 +1,22 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import qualified DQuest.Data.Dummies as Dummy
-import DQuest.Data.Quest (Quest)
-
-import Display
-import Admin
-import ServerApi
 import Views
-
 import Reflex.Dom
 
-import qualified Data.Text as Text
-
+{-
+The main method works much like in normal haskell. You're free to run
+any arbitrary IO code in here. But we use it to start the reflex doom environment.
+-}
 main :: IO ()
 main = mainWidget $ do
   viewEvent <- viewMenu
   dyn viewEvent
   blank
 
+{- |
+Simple switch for the different main views. Won't update the same view twice.x
+-}
 viewMenu :: MonadWidget t m => m (Dynamic t (m ()))
 viewMenu = el "div" $ do
   heroEvent <- fmap (const (Hero, heroView)) <$> button "Hero view"
@@ -29,6 +27,7 @@ viewMenu = el "div" $ do
                           else Just new) (Hero, heroView) (leftmost [heroEvent, adminEvent])
   pure $ fmap snd dynM
 
+-- | Datatype only used for the @viewMenu function
 data MainView = Hero
               | Admin
               deriving (Show, Eq, Ord, Read)

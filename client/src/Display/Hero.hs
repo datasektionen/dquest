@@ -14,8 +14,6 @@ import Data.Monoid
 import qualified Data.Text as Text
 
 
-
-
 heroWidget hero =
   el "div" $ do
       el "div" $ do

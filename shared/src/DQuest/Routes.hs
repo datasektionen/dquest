@@ -35,7 +35,7 @@ type QuestKey = Capture "title" Text :> Capture "date" UTCTime
 
 type QuestNew = "new" :> ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
 
-type QuestUpdate = "update" :> Capture "dbID" :> Post '[JSON]  Bool
+type QuestUpdate = "update" :> Capture "dbID" Text :> ReqBody '[JSON] ProtoQuest :> Post '[JSON]  Bool
 
 type JsonAPI = "quest" :> ( QuestLookup :<|> QuestNew :<|> QuestUpdate)
 
@@ -44,14 +44,5 @@ type Index = Get '[HTML] Blob
 type PublicDir = Raw
 
 type ServerApi = JsonAPI :<|> Index :<|> PublicDir
-
--- type ServerApi = "quest" :>
---     (    "open"   :> Get '[JSON] [Quest]
---     :<|> "all"    :> Get '[JSON] [Quest]
---     :<|> "closed" :> Get '[JSON] [Quest]
---     :<|> "new"    :> ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
---     )
---     :<|> Get '[HTML] Blob
---     :<|> Raw
 
 -- curl -i -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8080/quest/new

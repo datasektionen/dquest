@@ -43,6 +43,7 @@ fromProtoQuest pq = do
   return $ Quest
     { title       = PQ.title pq
     , description = PQ.description pq
+    , tags        = []
     , issue       = PQ.issue pq
     , rewards     = PQ.rewards pq
     , comments    = []
@@ -51,6 +52,14 @@ fromProtoQuest pq = do
     , closed      = Nothing
     , id          = mempty
     }
+
+updateWithProtoQuest :: Quest -> ProtoQuest -> Quest
+updateWithProtoQuest q PQ.ProtoQuest{..} =
+  q{ title = title
+   , description = description
+   , issue = issue
+   , rewards = rewards
+   }
 
 dummy :: IO Quest
 dummy = fromProtoQuest PQ.dummy
