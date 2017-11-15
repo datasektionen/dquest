@@ -52,7 +52,7 @@ dQuestServer = jsonServer
 jsonServer = questServer
 
 questServer =  qQuestLookupServer
-          :<|> questNewServer
+          :<|> (questNewServer :<|> questUpdateServer)
 
 qQuestLookupServer =
    liftIO DB.activeQuests :<|> liftIO DB.allQuests :<|>  liftIO DB.closedQuests
@@ -67,3 +67,8 @@ questNewServer protoQuest = do
   error "Not implemented"
   where
     newQuest = Quest.fromProtoQuest protoQuest
+
+
+questUpdateServer dbID protoQuest= do
+  liftIO $ print $ (dbID, protoQuest)
+  error "Not implemented"
