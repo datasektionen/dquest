@@ -13,7 +13,7 @@ import Reflex.Dom
 
 import qualified Data.Text as Text
 
-
+-- | The main view for the user any information that the normal user should see should start from here
 heroView :: MonadWidget t m => m ()
 heroView = el "div" $ do
   heroWidget Dummy.hero1
@@ -23,7 +23,7 @@ heroView = el "div" $ do
   el "div" $ dyn (fmap (maybe (text "No content") (mapM_ questWidget)) t)
   blank
 
-
+-- | The main view for an admin.
 adminView :: MonadWidget t m => m ()
 adminView = do
   newQuestForm

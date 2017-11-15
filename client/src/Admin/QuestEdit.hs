@@ -1,8 +1,11 @@
 {-# LANGUAGE RecursiveDo, OverloadedStrings, RankNTypes, ScopedTypeVariables  #-}
-module Admin where
+module Admin.QuestEdit where
 
 import DQuest.Data.Quest (Quest)
-import DQuest.Data.ProtoQuest
+
+import DQuest.Data.ProtoQuest (ProtoQuest)
+import DQuest.Data.ProtoQuest as PQ
+
 import DQuest.Data.Reward
 
 import Display
@@ -22,36 +25,51 @@ import qualified Data.Map as Map
 import Control.Lens
 import Control.Applicative
 import Control.Monad
+import Data.Maybe
 
 import Util (dataInput)
 
--- Widget Spider (Gui Spider (WithWebView SpiderHost) (HostFrame Spider)) ()
-newQuestForm ::  forall t m . MonadWidget t m => m (Event t Quest)
+-- | Quickhand for creating a new quest. When the event quest save
+-- hase been triggered it sends a request to the server. If this
+-- succeeds the return event fires.
+newQuestForm :: MonadWidget t m => m (Event t Quest)
 newQuestForm = el "div" $ do
-  nameInput <- textInput def
-  descriptionInput <- textArea def
-  issueInput <- textInput def
-  let nameDyn = nameInput^.textInput_value
-      descriptionDyn = descriptionInput^.textArea_value
-      issueValueDyn = issueInput^.textInput_value
-      issueDyn = (\ s -> if Text.null s then Nothing else Just s) <$> issueValueDyn
-  rewardDyn <- rewardTable
-  let protoQuestDyn = ProtoQuest <$> nameDyn <*> descriptionDyn <*> issueDyn <*> rewardDyn
-  buttonEvent <- button "Create quest"
-  let createEvent = tagPromptlyDyn protoQuestDyn buttonEvent
+  editEvent <- questEdit PQ.empty
   resultEvent <- createNewQuest createEvent
   pure $ fmapMaybe id resultEvent
 
 
+{-| Quest edit shows the content of a quest and provides the ui
+necessary to edit it. When the save button is pressed and the basic
+error checks have been done it will fire the returned Event with the
+updated ProtoQuest.
+-}
+questEdit :: MonadWidget t m => ProtoQuest -> m (Event t ProtoQuest)
+questEdit proto = el "div" $ do
+  nameInput <- textInput def{ _textInputConfig_initialValue = PQ.title proto}
+  descriptionInput <- textArea def{ _textAreaConfig_initialValue = PQ.description proto}
+  issueInput <- textInput def{ _textInputConfig_initialValue  = fromMaybe "" (PQ.issue proto)}
+  let nameDyn = nameInput^.textInput_value
+      descriptionDyn = descriptionInput^.textArea_value
+      issueValueDyn = issueInput^.textInput_value
+      issueDyn = (\ s -> if Text.null s then Nothing else Just s) <$> issueValueDyn
+  rewardDyn <- rewardTable (PQ.rewards proto)
+  let protoQuestDyn = ProtoQuest <$> nameDyn <*> descriptionDyn <*> issueDyn <*> rewardDyn
+  buttonEvent <- button "Save quest"
+  pure $ tagPromptlyDyn protoQuestDyn buttonEvent
+
+
+
+
 -- Might be the most overly compicated heap of garbage i've ever written.
-rewardTable :: forall t m . MonadWidget t m => m (Dynamic t [(Quantity, Reward)])
-rewardTable = el "div" $ do
+rewardTable :: MonadWidget t m => [(Quantity, Reward)] -> m (Dynamic t [(Quantity, Reward)])
+rewardTable defaultRewards = el "div" $ do
   newRewardEvent <- el "div" $ newRewardBox
   rec (currentCreate :: Dynamic t [(Quantity, Reward)], removeEvents :: Event t Reward) <- el "ul" $ do
         let changeEvent = leftmost [Left <$> removeEvents, Right <$> newRewardEvent]
         rewards <- foldDyn (\ e l -> case e of
                                Left r -> filter ((/=r).snd) l
-                               Right t -> t:l) [] changeEvent
+                               Right t -> t:l) defaultRewards changeEvent
         del <- dyn $ (\ l -> leftmost <$> mapM (uncurry rewardListElement) l) <$> rewards
         del' <- holdDyn never del
         pure (rewards, (switchPromptlyDyn del'))
