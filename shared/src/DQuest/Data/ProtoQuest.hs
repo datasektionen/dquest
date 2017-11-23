@@ -6,11 +6,16 @@ import GHC.Generics
 import Data.Text (Text)
 
 import DQuest.Data.Reward
+import DQuest.Data.QuestGiver (QuestGiverName)
+
+import DQuest.Data.Difficulty
 
 data ProtoQuest = ProtoQuest
   { title      :: Text
   , description :: Text
   , issue      :: Maybe Text
+  , questGiver :: QuestGiverName
+  , difficulty :: Difficulty
   , rewards    :: [(Quantity, Reward)]
   } deriving (Show,Read,Eq,Generic)
 instance ToJSON ProtoQuest
@@ -21,13 +26,7 @@ empty = ProtoQuest
         { title = mempty
         , description = mempty
         , issue = Nothing
-        , rewards = []
-        }
-
-dummy :: ProtoQuest
-dummy = ProtoQuest
-        { title = "Test quest"
-        , description = "This is a test description"
-        , issue = Nothing
+        , questGiver = "crash'n bränn"
+        , difficulty = Medium
         , rewards = []
         }

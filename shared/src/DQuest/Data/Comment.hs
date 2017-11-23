@@ -10,10 +10,10 @@ import Datasektionen.Types
 import Data.Time.Clock (UTCTime)
 
 data Comment = Comment
-  { user :: KthID
-  , content :: Text
+  { user     :: KthID
+  , content  :: Text
   , uploaded :: UTCTime
-  , history :: [(UTCTime, Text)]
+  , history  :: [(UTCTime, Text)]
   } deriving (Show,Read,Eq,Generic)
 
 instance ToJSON Comment

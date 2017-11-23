@@ -11,6 +11,7 @@ import qualified DQuest.Data.Quest as Quest
 import DQuest.Data.ProtoQuest (ProtoQuest)
 import DQuest.Data.ProtoQuest as PQ
 
+import DQuest.Data.Difficulty
 import DQuest.Data.Reward
 
 import Display.Quest (questWidget)
@@ -32,7 +33,8 @@ import Control.Applicative
 import Control.Monad
 import Data.Maybe
 
-import Util (dataInput, switchButton)
+import Util
+
 
 -- | Quickhand for creating a new quest. When the event quest save
 -- hase been triggered it sends a request to the server. If this
@@ -45,7 +47,7 @@ newQuestForm = el "div" $ do
 
 -- | Wrapper for editQuest for sending an update request to the
 -- server. The returned event fires when the update succeeded.
-questEditAndSave :: MonadWidget t m => Quest -> m (Event t Quest)
+questEditAndSave :: MonadWidget t m => Quest -> m (Event t Bool)
 questEditAndSave quest = do
   saveEvent <- questEdit protoQuest
   updateQuest (fmap (\ p -> (p,dbID)) saveEvent)
@@ -57,14 +59,20 @@ questEditAndSave quest = do
 -- quests. However it doesn't do any actual updating of the provided
 -- quest but the returned event will fire when a proper edit and save
 -- click has been made
-editQuest :: MonadWidget t m => Quest -> m (Event t Quest)
+editQuest :: forall t m . MonadWidget t m => Quest -> m (Event t Quest)
 editQuest quest = el "div" $ do
-  editEvent <- switchButton "Edit" "Cancel"
-  foldDynMaybe (\ b -> if b
-                 then questWidget quest
-                 else questEdit (fst $ ))
-  widgetHold (questWidget quest)
-
+  switchEvent <- switchButton "Edit" "Cancel"
+  let events = fmap (\ p -> if p
+                      then showQuest
+                      else do
+                         updateEvent <- questEdit protoQuest
+                         pure $ Quest.updateWithProtoQuest quest <$> updateEvent) switchEvent
+  d <- widgetHold showQuest events
+  pure $ switchPromptlyDyn d
+  where
+    (protoQuest, questID) =  Quest.toProtoQuest quest
+    showQuest :: MonadWidget t m => m (Event t Quest)
+    showQuest = questWidget quest >> pure never
 
 {-| Quest edit shows the content of a quest and provides the ui
 necessary to edit it. When the save button is pressed and the basic
@@ -73,17 +81,34 @@ updated ProtoQuest.
 -}
 questEdit :: MonadWidget t m => ProtoQuest -> m (Event t ProtoQuest)
 questEdit proto = el "div" $ do
-  nameInput <- textInput def{ _textInputConfig_initialValue = PQ.title proto}
-  descriptionInput <- textArea def{ _textAreaConfig_initialValue = PQ.description proto}
-  issueInput <- textInput def{ _textInputConfig_initialValue  = fromMaybe "" (PQ.issue proto)}
-  let nameDyn = nameInput^.textInput_value
+  titleInput <- titled "Title: " $ textInputWithValue (PQ.title proto)
+  descriptionInput <- titled "Description: " $ textAreaWithValue (PQ.description proto)
+  issueInput <- titled "Github issue (Optional): " $ textInputWithValue (fromMaybe "" (PQ.issue proto))
+  difficultyDyn <- titled "Difficulty: " $ difficultySelect (Just $ difficulty proto)
+  let titleDyn = titleInput^.textInput_value
       descriptionDyn = descriptionInput^.textArea_value
       issueValueDyn = issueInput^.textInput_value
       issueDyn = (\ s -> if Text.null s then Nothing else Just s) <$> issueValueDyn
+      dummyQuestGiverDyn = constDyn "crash'n bränn"
   rewardDyn <- rewardTable (PQ.rewards proto)
-  let protoQuestDyn = ProtoQuest <$> nameDyn <*> descriptionDyn <*> issueDyn <*> rewardDyn
+  let protoQuestDyn = ProtoQuest <$> titleDyn <*> descriptionDyn <*> issueDyn <*> dummyQuestGiverDyn <*> difficultyDyn <*> rewardDyn
   buttonEvent <- button "Save quest"
   pure $ tagPromptlyDyn protoQuestDyn buttonEvent
+
+
+-- | For selecting the difficulty level
+-- Defaults to "Medium"2
+difficultySelect :: MonadWidget t m => Maybe Difficulty -> m (Dynamic t Difficulty)
+difficultySelect defaultSelect =
+  _dropdown_value <$> dropdown defaultVal (constDyn options) def
+  where
+    options = Map.fromList [(VeryEasy, "Very easy")
+                           ,(Easy, "Easy")
+                           ,(Medium, "Medium")
+                           ,(Hard, "Hard")
+                           ,(VeryHard, "Very hard")
+                           ,(RIP, "RIP")]
+    defaultVal =  fromMaybe Medium defaultSelect
 
 -- | A widget for editing and creating new rewards. First argument is
 -- the default values of the list. Waring to people editing this. It

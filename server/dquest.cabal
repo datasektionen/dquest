@@ -29,6 +29,7 @@ library
                      , shared
                      , aeson  >= 0.11 && < 0.12
                      , aeson-bson
+                     , bson
                      , servant
                      , servant-server
                      , servant-client

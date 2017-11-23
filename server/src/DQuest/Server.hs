@@ -27,12 +27,14 @@ import Servant.Ext
 
 import DQuest.Routes
 import qualified DQuest.Data.Quest as Quest
-
+import DQuest.Data
 import qualified DQuest.Database as DB
 
 import qualified DQuest.Data.Dummies as Dummy
 
 import Network.Wai.Handler.Warp
+
+import Data.Text (Text)
 
 serveOn :: Port -> IO ()
 serveOn port = run port dQuestWebApp
@@ -60,13 +62,20 @@ qQuestLookupServer =
    :<|> liftIO DB.closedQuests
 
 
+questNewServer :: ProtoQuest -> Handler Quest
 questNewServer protoQuest = do
-  liftIO $ print protoQuest
-  error "Not implemented"
-  where
-    newQuest = Quest.fromProtoQuest protoQuest
+  newQuest <- liftIO $ do
+    print "Creating a new quest"
+    print protoQuest
+    questTemplate <-  Quest.fromProtoQuest "tmore" protoQuest
+    q <- DB.newQuest questTemplate
+    print "Sucess: "
+    print q
+    pure q
+  return newQuest
 
-
+questUpdateServer :: Text -> ProtoQuest -> Handler Bool
 questUpdateServer dbID protoQuest = do
   liftIO $ print $ (dbID, protoQuest)
   error "Not implemented"
+  pure False

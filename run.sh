@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export MONGO_URL="localhost:27017"
+export MONGO_URL="mongodb://127.0.0.1:27017"
 cd server
 
 stack exec server

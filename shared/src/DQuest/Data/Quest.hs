@@ -13,19 +13,27 @@ import qualified DQuest.Data.ProtoQuest as PQ
 import DQuest.Data.Reward
 import DQuest.Data.Comment (Comment)
 
+import DQuest.Data.QuestGiver (QuestGiverName, QuestGiver)
+import qualified DQuest.Data.QuestGiver as QuestGiver
+
+import DQuest.Data.Difficulty
+
 type Tag = Text
 
 data Quest = Quest
-             { title       :: Text
+             { id          :: Text
+             , title       :: Text
              , description :: Text
+             , difficulty  :: Difficulty
+             , questGiver  :: QuestGiverName
              , tags        :: [Tag]
              , issue       :: Maybe Text
              , comments    :: [Comment]
              , assigned    :: [KthID]
              , rewards     :: [(Quantity, Reward)]
+             , creator     :: KthID
              , uploaded    :: UTCTime
              , closed      :: Maybe (UTCTime, [KthID])
-             , id          :: Text
              } deriving (Show,Read,Eq,Generic)
 instance ToJSON Quest
 instance FromJSON Quest
@@ -33,24 +41,26 @@ instance FromJSON Quest
 -- | This creates a ProtoQuest from a given quest, can be used for
 -- editing the main parts of the
 toProtoQuest :: Quest -> (ProtoQuest, Text)
-toProtoQuest Quest{..} = (PQ.ProtoQuest title description issue rewards
+toProtoQuest Quest{..} = (PQ.ProtoQuest title description issue questGiver difficulty rewards
                          , id)
 
-
-fromProtoQuest :: ProtoQuest -> IO Quest
-fromProtoQuest pq = do
-  t <- getCurrentTime
+fromProtoQuest :: KthID -> ProtoQuest -> IO Quest
+fromProtoQuest creator pq = do
+  currentTime <- getCurrentTime
   return $ Quest
-    { title       = PQ.title pq
+    { id = mempty
+    , title       = PQ.title pq
     , description = PQ.description pq
+    , difficulty  = PQ.difficulty pq
+    , questGiver  = PQ.questGiver pq
     , tags        = []
     , issue       = PQ.issue pq
-    , rewards     = PQ.rewards pq
     , comments    = []
     , assigned    = []
-    , uploaded    = t
+    , rewards     = PQ.rewards pq
+    , creator     = creator
+    , uploaded    = currentTime
     , closed      = Nothing
-    , id          = mempty
     }
 
 updateWithProtoQuest :: Quest -> ProtoQuest -> Quest
@@ -62,4 +72,4 @@ updateWithProtoQuest q PQ.ProtoQuest{..} =
    }
 
 dummy :: IO Quest
-dummy = fromProtoQuest PQ.dummy
+dummy = fromProtoQuest "tmore" PQ.empty

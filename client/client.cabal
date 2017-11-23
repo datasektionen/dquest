@@ -16,7 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Display.Hero, Display.Quest
-                     , Admin.View, Admin.QuestEdit
+                     , Admin.QuestEdit
                      , Util
                      , ServerApi
                      , Views

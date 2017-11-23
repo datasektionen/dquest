@@ -37,7 +37,7 @@ type QuestNew = "new" :> ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
 
 type QuestUpdate = "update" :> Capture "dbID" Text :> ReqBody '[JSON] ProtoQuest :> Post '[JSON]  Bool
 
-type JsonAPI = "quest" :> ( QuestLookup :<|> QuestNew :<|> QuestUpdate)
+type JsonAPI = "quest" :> (QuestLookup :<|> QuestNew :<|> QuestUpdate)
 
 
 type Index = Get '[HTML] Blob

@@ -6,6 +6,8 @@ import GHC.Generics
 
 import Data.Text
 
+type QuestGiverName = Text
+
 data QuestGiver = QuestGiver
                   { name        :: Text
                   , description :: Text

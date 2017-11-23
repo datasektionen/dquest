@@ -19,8 +19,10 @@ library
                      , DQuest.Data.Reward
                      , DQuest.Data.ProtoQuest
                      , DQuest.Data.Quest
+                     , DQuest.Data.QuestGiver
                      , DQuest.Data.Comment
                      , DQuest.Data.Dummies
+                     , DQuest.Data.Difficulty
                      , DQuest.Routes
                      , DQuest.Data
                      , Datasektionen.Types

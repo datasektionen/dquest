@@ -1,11 +1,11 @@
 code size summary per package:
 
-aeson-0.11.3.0-W9M6pafeGiE4wY7dgZsHH:800960
+aeson-0.11.3.0-W9M6pafeGiE4wY7dgZsHH:862075
 attoparsec-0.13.1.0-FMbTiXvue1s3ZYBlEX83Hr:151340
-base:                    579027
+base:                    580104
 bimap-0.3.2-HupiXUJFElBIXTr3rCRf9y:4646
-bytestring-0.10.8.1-5wktHSR60zC2wTr02OpyVU:18728
-client-0.1.0.0-80Z2es2OnGa1Qj5Q1IyWYr:162970
+bytestring-0.10.8.1-5wktHSR60zC2wTr02OpyVU:40458
+client-0.1.0.0-80Z2es2OnGa1Qj5Q1IyWYr:277052
 containers-0.5.7.1-9AY76Rzb1QLJmP8p4wSZRz:169684
 dependent-map-0.2.4.0-JQogJkCWcm51zbhFvdN4TV:113186
 dependent-sum-0.3.2.2-7nS29TvovqDNS76jfcaer:12371
@@ -18,27 +18,27 @@ main:                    33726
 prim-uniq-0.1.0.1-Lbg7Imujn019qkjLCx908j:2786
 primitive-0.6.1.0-PBvNfnj6B81wEvI5CBk0H:2323
 ref-tf-0.4.0.1-3hM7hnw7bOB1FwMAOCGwpN:1286
-reflex-0.5.0-G7AWLFvgrSKB7dNbVX2W5a:1068098
-reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN:944408
-scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7:124421
-shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7:143012
+reflex-0.5.0-G7AWLFvgrSKB7dNbVX2W5a:1068375
+reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN:943817
+scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7:201155
+shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7:212432
 text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P:119277
 these-0.7.3-DYnXBDXpZLCHk3K1Pi3bet:3002
 time-1.6.0.1-Lja9T8bqIudL0xdsRMOCyg:45795
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB:24632
 unordered-containers-0.2.7.2-LeYXliaHpH7Hgsi57JMhxc:5494
-vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0:68619
+vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0:68622
 
 
 code size per module:
 
 aeson-0.11.3.0-W9M6pafeGiE4wY7dgZsHH
     Data.Aeson.Encode:                  90146
-    Data.Aeson.Encode.Builder:          21007
+    Data.Aeson.Encode.Builder:          53542
     Data.Aeson.Parser.Internal:         239143
     Data.Aeson.Parser.Time:             221029
     Data.Aeson.Types.Class:             3415
-    Data.Aeson.Types.Generic:           198818
+    Data.Aeson.Types.Generic:           227398
     Data.Aeson.Types.Instances:         6509
     Data.Aeson.Types.Internal:          20893
 
@@ -111,7 +111,7 @@ base
     GHC.Num:                            3250
     GHC.Ptr:                            610
     GHC.Read:                           20082
-    GHC.Real:                           32870
+    GHC.Real:                           33808
     GHC.ST:                             2250
     GHC.STRef:                          620
     GHC.Show:                           31023
@@ -121,7 +121,7 @@ base
     GHC.TopHandler:                     12934
     GHC.Unicode:                        1753
     GHC.Weak:                           174
-    GHC.Word:                           17718
+    GHC.Word:                           17857
     Numeric:                            5098
     System.IO:                          622
     System.Posix.Internals:             15344
@@ -135,18 +135,20 @@ bimap-0.3.2-HupiXUJFElBIXTr3rCRf9y
     Data.Bimap:                         4646
 
 bytestring-0.10.8.1-5wktHSR60zC2wTr02OpyVU
-    Data.ByteString:                    1
-    Data.ByteString.Builder.Internal:   2014
+    Data.ByteString:                    840
+    Data.ByteString.Builder.ASCII:      17462
+    Data.ByteString.Builder.Internal:   5443
     Data.ByteString.Builder.Prim.Internal.Base16:4837
     Data.ByteString.Internal:           10857
     Data.ByteString.Lazy.Internal:      1019
 
 client-0.1.0.0-80Z2es2OnGa1Qj5Q1IyWYr
-    Admin:                              98954
-    Display:                            22934
-    ServerApi:                          15099
-    Util:                               6465
-    Views:                              19518
+    Admin.QuestEdit:                    172164
+    Display.Hero:                       16061
+    Display.Quest:                      8520
+    ServerApi:                          18217
+    Util:                               17458
+    Views:                              44632
 
 containers-0.5.7.1-9AY76Rzb1QLJmP8p4wSZRz
     Data.IntMap.Base:                   24825
@@ -219,7 +221,7 @@ reflex-0.5.0-G7AWLFvgrSKB7dNbVX2W5a
     Data.Functor.Misc:                  15723
     Data.WeakBag:                       1556
     Reflex.Class:                       48706
-    Reflex.Dynamic:                     12404
+    Reflex.Dynamic:                     12681
     Reflex.Host.Class:                  3156
     Reflex.Patch:                       5633
     Reflex.PerformEvent.Base:           53858
@@ -240,13 +242,14 @@ reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN
     Reflex.Dom.Internal:                26645
     Reflex.Dom.Internal.Foreign:        682
     Reflex.Dom.Widget.Basic:            149625
-    Reflex.Dom.Widget.Input:            77991
+    Reflex.Dom.Widget.Input:            77400
     Reflex.Dom.Xhr:                     145499
     Reflex.Dom.Xhr.Exception:           4330
     Reflex.Dom.Xhr.Foreign:             7436
     Reflex.Dom.Xhr.ResponseType:        1224
 
 scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7
+    Data.ByteString.Builder.Scientific: 76734
     Data.Scientific:                    5576
     Data.Text.Lazy.Builder.Scientific:  110285
     Math.NumberTheory.Logarithms:       4291
@@ -254,10 +257,11 @@ scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7
 
 shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7
     DQuest.Data.Comment:                25495
+    DQuest.Data.Difficulty:             53454
     DQuest.Data.Dummies:                708
     DQuest.Data.Hero:                   1986
-    DQuest.Data.ProtoQuest:             11364
-    DQuest.Data.Quest:                  62359
+    DQuest.Data.ProtoQuest:             15222
+    DQuest.Data.Quest:                  74467
     DQuest.Data.Reward:                 41100
 
 text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P
@@ -311,10 +315,10 @@ vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0
     Data.Vector.Generic.Base:           1375
     Data.Vector.Generic.Mutable.Base:   2283
     Data.Vector.Generic.New:            342
-    Data.Vector.Internal.Check:         5055
+    Data.Vector.Internal.Check:         5058
     Data.Vector.Mutable:                38501
 
 
 
-packed metadata: 884019
+packed metadata: 934376
 

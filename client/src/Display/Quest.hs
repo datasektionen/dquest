@@ -14,6 +14,7 @@ import Data.Monoid
 import qualified Data.Text as Text
 
 
+questWidget :: MonadWidget t m => Quest -> m ()
 questWidget quest =
   el "div" $ do
       el "div" $ text (Quest.title quest)
