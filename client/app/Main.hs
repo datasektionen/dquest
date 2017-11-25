@@ -3,16 +3,41 @@ module Main where
 
 import Views
 import Reflex.Dom
+import Data.Monoid
+
+import Methone
+
+import Util.Events
+
+methoneConfig = MethoneConf
+                { system_name  = "dquest"
+                , color_scheme = "cerice"
+                , login_text   = "Potato"
+                , login_href   = "#login"
+                , links        = [MethoneLink "Hero" "#hero"
+                                 ,MethoneLink "Admin" "#admin"]
+                }
 
 {-
 The main method works much like in normal haskell. You're free to run
 any arbitrary IO code in here. But we use it to start the reflex doom environment.
 -}
 main :: IO ()
-main = mainWidget $ do
+main = mainWidgetWithHead htmlHead (methoneWrapper methoneConfig dquestContent)
+
+dquestContent :: MonadWidget t m => m ()
+dquestContent = do
+  locDyn <- getLocationDyn
+  dynText locDyn
+
   viewEvent <- viewMenu
   dyn viewEvent
   blank
+
+htmlHead :: MonadWidget t m => m ()
+htmlHead = do
+  elAttr "link" ("href" =: "https://aurora.datasektionen.se/" <> "type" =: "text/css" <> "rel" =: "stylesheet") blank
+  elAttr "meta" ("charset" =: "UTF-8") blank
 
 {- |
 Simple switch for the different main views. Won't update the same view twice.x
