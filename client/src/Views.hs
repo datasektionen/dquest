@@ -8,11 +8,25 @@ import qualified DQuest.Data.Quest as Quest
 
 import Display.Hero
 import Display.Quest
+
 import Admin.QuestEdit
-import ServerApi
+import DQuest.ServerApi
+import DQuest.Nav
 import Reflex.Dom
 import qualified Data.Text as Text
 import Data.Monoid
+
+import Control.Monad.IO.Class
+
+
+mainView :: MonadWidget t m => Location -> m ()
+mainView (Location [""] _) = heroView
+mainView (Location ("hero":_) _) = heroView
+mainView (Location ("admin":_) _) = adminView
+mainView (Location ("login":_) query) = do
+  liftIO $ print query
+mainView _ = heroView
+
 
 -- | The main view for the user any information that the normal user should see should start from here
 heroView :: MonadWidget t m => m ()

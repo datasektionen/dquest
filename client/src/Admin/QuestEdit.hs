@@ -15,7 +15,7 @@ import DQuest.Data.Difficulty
 import DQuest.Data.Reward
 
 import Display.Quest (questWidget)
-import ServerApi
+import DQuest.ServerApi
 
 import Reflex.Dom
 import Data.Monoid
@@ -116,7 +116,7 @@ difficultySelect defaultSelect =
 rewardTable :: MonadWidget t m => [(Quantity, Reward)] -> m (Dynamic t [(Quantity, Reward)])
 rewardTable defaultRewards = el "div" $ do
   newRewardEvent <- el "div" $ newRewardBox
-  rec (currentCreate :: Dynamic t [(Quantity, Reward)], removeEvents :: Event t Reward) <- el "ul" $ do
+  rec (currentCreate, removeEvents) <- el "ul" $ do
         let changeEvent = leftmost [Left <$> removeEvents, Right <$> newRewardEvent]
         rewards <- foldDyn (\ e l -> case e of
                                Left r -> filter ((/=r).snd) l

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module ServerApi where
+module DQuest.ServerApi where
 
 import DQuest.Data.Quest (Quest)
 import Reflex.Dom

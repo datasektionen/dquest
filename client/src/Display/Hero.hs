@@ -25,6 +25,8 @@ heroWidget hero =
       blank
 
 
+
+
 questInspectWidget hero = blank
 
 

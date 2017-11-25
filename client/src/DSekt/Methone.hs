@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
-module Methone (MethoneConf(..), MethoneLink(..), methoneWrapper, ) where
+module DSekt.Methone (MethoneConf(..), MethoneLink(..), methoneWrapper, ) where
 
 
 import Reflex.Dom
@@ -56,7 +56,7 @@ methoneUrl = "//methone.datasektionen.se/bar.js"
 
 methoneWrapper :: MonadWidget t m => MethoneConf -> m a -> m a
 methoneWrapper config content = do
-  elAttr "div" ("id" =:"methone-container-replace") (el "nav" blank)
+  elAttr "div" ("id" =:"methone-container-replace" <> "style" =: "margin-top: 50px") (el "nav" blank)
   liftIO $ setMethoneConfig config
   res <- content
   elAttr "script" ("src" =: methoneUrl) blank
