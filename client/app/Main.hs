@@ -5,14 +5,14 @@ import Views
 import Reflex.Dom
 import Data.Monoid
 
-import Methone
+import DSekt.Methone
+import DQuest.Nav
 
-import Util.Events
 
 methoneConfig = MethoneConf
                 { system_name  = "dquest"
                 , color_scheme = "cerice"
-                , login_text   = "Potato"
+                , login_text   = ""
                 , login_href   = "#login"
                 , links        = [MethoneLink "Hero" "#hero"
                                  ,MethoneLink "Admin" "#admin"]
@@ -28,10 +28,8 @@ main = mainWidgetWithHead htmlHead (methoneWrapper methoneConfig dquestContent)
 dquestContent :: MonadWidget t m => m ()
 dquestContent = do
   locDyn <- getLocationDyn
-  dynText locDyn
-
-  viewEvent <- viewMenu
-  dyn viewEvent
+  display locDyn
+  dyn $ mainView <$> locDyn
   blank
 
 htmlHead :: MonadWidget t m => m ()
@@ -43,7 +41,8 @@ htmlHead = do
 Simple switch for the different main views. Won't update the same view twice.x
 -}
 viewMenu :: MonadWidget t m => m (Dynamic t (m ()))
-viewMenu = el "div" $ do
+viewMenu = do
+
   heroEvent <- fmap (const (Hero, heroView)) <$> button "Hero view"
   adminEvent <- fmap (const (Admin, adminView)) <$> button "Admin view "
   dynM <- foldDynMaybe (\ new@(symbol, _) (oldSymbol, _) ->
