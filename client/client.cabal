@@ -19,7 +19,8 @@ library
                      , Admin.QuestEdit
                      , Util
                      , Util.Widgets
-                     , Util.Events
+                     , Util.Location
+                     , Util.Cookie
                      , DQuest.ServerApi
                      , DQuest.Nav
                      , DSekt.Methone
