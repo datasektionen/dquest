@@ -5,7 +5,7 @@ This should contain any custom and reusable event action
 -}
 
 {-# LANGUAGE OverloadedStrings #-}
-module Util.Events where
+module Util.Location where
 
 import Reflex.Dom
 
@@ -20,6 +20,8 @@ import qualified Data.JSString as JSStr
 import GHCJS.Marshal.Pure
 import GHCJS.Marshal
 
+import Data.Monoid
+
 foreign import javascript unsafe
     "window.addEventListener('hashchange', function(e){$1(e.newURL)});"
     js_addLocationEvent :: Callback (JSVal -> IO ()) -> IO ()
@@ -28,11 +30,17 @@ foreign import javascript unsafe
    "$r = window.location;"
    js_getLocation :: IO JSVal
 
+foreign import javascript unsafe
+   "window.location = $1"
+   js_setWindowLocation :: JSVal -> IO ()
+
+getLocation :: IO Text
+getLocation = pFromJSVal <$> js_getLocation
+
 -- |
 getLocationDyn :: MonadWidget t m => m (Dynamic t Text)
 getLocationDyn = do
-  jsLocation <- liftIO js_getLocation
-  let location = pFromJSVal jsLocation
+  location <- liftIO getLocation
   change <- getLocationChangeEvent
   holdDyn location change
 
@@ -54,3 +62,16 @@ setOnLocationChange onTagChange = do
       case maybeLoc of
         Just str -> onTagChange str
         Nothing -> pure ()
+
+
+setLocation :: Text -> IO ()
+setLocation = js_setWindowLocation . pToJSVal
+
+getLocationHash :: IO Text
+getLocationHash = (Text.drop 1 . Text.dropWhile (/='#')) <$> getLocation
+
+changeLocationHash :: Text -> IO ()
+changeLocationHash newHash = do
+  location <- getLocation
+  let urlPart = Text.takeWhile (/='#') location
+  setLocation $ urlPart <> "#" <> newHash
