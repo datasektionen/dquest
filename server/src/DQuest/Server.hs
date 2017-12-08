@@ -24,6 +24,7 @@ import Prelude.Compat
 import Control.Monad.Except
 import Servant
 import Servant.Ext
+import Servant.DQuestTypes
 
 import DQuest.Routes
 import qualified DQuest.Data.Quest as Quest
@@ -35,6 +36,8 @@ import qualified DQuest.Data.Dummies as Dummy
 import Network.Wai.Handler.Warp
 
 import Data.Text (Text)
+
+import qualified Datasektionen.Login as Login
 
 serveOn :: Port -> IO ()
 serveOn port = run port dQuestWebApp
@@ -50,17 +53,35 @@ dQuestServer = jsonServer
            :<|> serveDirectoryWebApp "webdata/"
 
 
-jsonServer = questServer
+jsonServer = questServer :<|> qHeroServer
 
 questServer =  qQuestLookupServer
           :<|> questNewServer
           :<|> questUpdateServer
+          :<|> questAssignServer
+
+questAssignServer :: Text -> Maybe LoginCookie -> Handler Bool
+questAssignServer questDbId maybeCookie = do
+  liftIO $ print maybeCookie
+  pure False
 
 qQuestLookupServer =
         liftIO DB.activeQuests
    :<|> liftIO DB.allQuests
    :<|> liftIO DB.closedQuests
 
+
+qHeroServer = identify
+  where
+    loginApiKey = Login.LoginApiKey "dquest-server-7f550fe666424f1c90df53d5bddcbe1c"
+    identify Nothing = pure Nothing
+    identify (Just (LoginCookie token)) = do
+      liftIO $ print token
+      mUser <- liftIO $ Login.verifyToken loginApiKey (Login.KthToken token)
+      case mUser of
+        Nothing -> pure Nothing
+        Just user ->
+          liftIO $ Just <$> DB.findOrInsertHero (Login.user user)
 
 questNewServer :: ProtoQuest -> Handler Quest
 questNewServer protoQuest = do

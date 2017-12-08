@@ -18,31 +18,49 @@ import Data.Monoid
 
 import Control.Monad.IO.Class
 
+import Util.Widgets
+import Util.Cookie
+import Util.Location
+
 
 mainView :: MonadWidget t m => Location -> m ()
-mainView (Location [""] _) = heroView
-mainView (Location ("hero":_) _) = heroView
-mainView (Location ("admin":_) _) = adminView
-mainView (Location ("login":_) query) = do
-  liftIO $ print query
-mainView _ = heroView
+mainView location = do
+  divID "content" $ content location
+  where
+    content :: MonadWidget t m => Location -> m ()
+    content (Location [""] _) = heroView
+    content (Location ("quests":_) _) = heroView
+    content (Location ("admin":_) _) = adminView
+    content (Location ("login":loginCode:_) _) = liftIO $ do
+      liftIO $ print =<< getLocation
+      print =<< getCookie "auth"
+      setCookieSimple "auth" loginCode
+      setLocation ""
+    content _ = do
+      heroView --liftIO $ changeLocationHash ""
 
 
--- | The main view for the user any information that the normal user should see should start from here
+-- | The main view for the user any information that the normal user
+-- should see should start from here
 heroView :: MonadWidget t m => m ()
-heroView = el "div" $ do
+heroView = do
+  heroDyn <- getCurrentHero
+  display heroDyn
   heroWidget Dummy.hero1
-  pbe <- getPostBuild
-  t <- getAllQuests pbe
-  dynText ((Text.pack . show) <$> t)
-  el "div" $ dyn (fmap  (mapM_ questWidget) t)
+  t <- getAllQuests =<< getPostBuild
+  divClass "quest-wrapper" $ do
+    texInp <- elAttr "div" ("class" =: "search-area") $ divClass "search-content" $ do
+      textInput def{ _textInputConfig_attributes = constDyn ("class" =: "subtle")}
+    dyn (fmap  (mapM_ questWidget) t)
   blank
 
 -- | The main view for an admin.
 adminView :: MonadWidget t m => m ()
 adminView = do
   allQuestsDyn <- getAllQuests =<< getPostBuild
-  searchStrDyn <- _textInput_value <$> (textInput def)
+  searchStrDyn <- _textInput_value <$> (textInput def{
+                                           _textInputConfig_attributes = constDyn ("class" =: "subtle")
+                                           })
   let filteredQuests = zipDynWith (\ qs filterStr ->
                                      filter (\ q -> Text.isInfixOf filterStr (Quest.title q) ||
                                                     Text.isInfixOf filterStr (Quest.description q)

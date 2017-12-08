@@ -16,7 +16,7 @@ import qualified Data.Map as Map
 
 import Reflex.Dom
 
-import qualified Util.Events as UE
+import qualified Util.Location as Loc
 import Data.Default
 
 -- | The location represent how dquest handles the location
@@ -40,7 +40,7 @@ parseLocation t =
   in Location (parsePath pathStr) query
   where
     fragmentStart =
-      Text.drop 1 . Text.dropWhile (not . (=='#'))
+      Text.drop 1
     parsePath  = dropWhile Text.null . Text.splitOn "/"
     listToPair (a:b:_) = (a,b)
     listToPair (a:[])  = (a, "")
@@ -48,4 +48,4 @@ parseLocation t =
     parseQuery = fmap listToPair . filter (not.null) . fmap (Text.splitOn "=") . Text.splitOn "&"
 
 getLocationDyn :: MonadWidget t m  => m (Dynamic t Location)
-getLocationDyn = fmap parseLocation <$> UE.getLocationDyn
+getLocationDyn = fmap parseLocation <$> Loc.getLocationHashDyn

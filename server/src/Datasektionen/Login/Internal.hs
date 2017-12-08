@@ -59,7 +59,9 @@ verifyApi = (Proxy :: Proxy VerifyApi)
 
 verify = client verifyApi
 
+-- https://login2.datasektionen.se/verify/MzwN5lW6NPzVLY5jDJGy9A?format=json&api_key=dquest-server-7f550fe666424f1c90df53d5bddcbe1c
 
+-- api_key=dquest-server-7f550fe666424f1c90df53d5bddcbe1c
 verifyToken :: LoginApiKey -> KthToken -> IO (Maybe User)
 verifyToken apikey token = do
   manager <- newTlsManager

@@ -12,10 +12,12 @@ import DQuest.Nav
 methoneConfig = MethoneConf
                 { system_name  = "dquest"
                 , color_scheme = "cerice"
-                , login_text   = ""
-                , login_href   = "#login"
-                , links        = [MethoneLink "Hero" "#hero"
-                                 ,MethoneLink "Admin" "#admin"]
+                , login_text   = "Identify thyself!"
+                , login_href   = "http://login2.datasektionen.se/login?callback=http%3A%2F%2Flocalhost.datasektionen.se%3A8080%2F%23login%2F"
+                , links        = [MethoneLink "Quest board"    "#quests"
+                                 ,MethoneLink "Hall of heroes" "#hall-of-heroes"
+                                 ,MethoneLink "Store"          "#store"
+                                 ,MethoneLink "Admin"          "#admin"]
                 }
 
 {-
@@ -28,41 +30,16 @@ main = mainWidgetWithHead htmlHead (methoneWrapper methoneConfig dquestContent)
 dquestContent :: MonadWidget t m => m ()
 dquestContent = do
   locDyn <- getLocationDyn
-  display locDyn
   dyn $ mainView <$> locDyn
   blank
 
 htmlHead :: MonadWidget t m => m ()
 htmlHead = do
-  elAttr "link" ("href" =: "https://aurora.datasektionen.se/" <> "type" =: "text/css" <> "rel" =: "stylesheet") blank
+  css "https://aurora.datasektionen.se/"
+  css "/style.css"
   elAttr "meta" ("charset" =: "UTF-8") blank
 
-{- |
-Simple switch for the different main views. Won't update the same view twice.x
--}
-viewMenu :: MonadWidget t m => m (Dynamic t (m ()))
-viewMenu = do
-
-  heroEvent <- fmap (const (Hero, heroView)) <$> button "Hero view"
-  adminEvent <- fmap (const (Admin, adminView)) <$> button "Admin view "
-  dynM <- foldDynMaybe (\ new@(symbol, _) (oldSymbol, _) ->
-                          if symbol == oldSymbol
-                          then Nothing
-                          else Just new) (Hero, heroView) (leftmost [heroEvent, adminEvent])
-  pure $ fmap snd dynM
-
--- | Datatype only used for the @viewMenu function
-data MainView = Hero
-              | Admin
-              deriving (Show, Eq, Ord, Read)
-
--- --
--- requestQuests ::  m (Event t (Maybe [Quest]))
--- requestQuests = do
-
---   let questsEvent =  e
---   pure questsEvent
---   where
---     req =  xhrRequest "GET" "/quest/all" def
---     reqDyn = constDyn req
---     reqEvent = updated reqDyn
+  where
+    css link = elAttr "link" ("href" =: link <>
+                              "type" =: "text/css" <>
+                              "rel" =: "stylesheet") blank

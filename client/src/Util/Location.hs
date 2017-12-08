@@ -23,36 +23,49 @@ import GHCJS.Marshal
 import Data.Monoid
 
 foreign import javascript unsafe
-    "window.addEventListener('hashchange', function(e){$1(e.newURL)});"
-    js_addLocationEvent :: Callback (JSVal -> IO ()) -> IO ()
+   "window.addEventListener('hashchange', function(){$1(window.location.hash)});"
+   js_addLocationEvent :: Callback (JSVal -> IO ()) -> IO ()
 
 foreign import javascript unsafe
    "$r = window.location;"
    js_getLocation :: IO JSVal
 
 foreign import javascript unsafe
-   "window.location = $1"
+   "$r = window.location.hash;"
+   js_getLocationHash :: IO JSVal
+
+foreign import javascript unsafe
+   "window.location = $1;"
    js_setWindowLocation :: JSVal -> IO ()
+
+foreign import javascript unsafe
+   "window.location.hash = $1;"
+   js_setWindowLocationHash :: JSVal -> IO ()
+
 
 getLocation :: IO Text
 getLocation = pFromJSVal <$> js_getLocation
 
+getLocationHash :: IO Text
+getLocationHash = do
+  pFromJSVal <$> js_getLocationHash
+
 -- |
-getLocationDyn :: MonadWidget t m => m (Dynamic t Text)
-getLocationDyn = do
-  location <- liftIO getLocation
-  change <- getLocationChangeEvent
-  holdDyn location change
+getLocationHashDyn :: MonadWidget t m => m (Dynamic t Text)
+getLocationHashDyn = do
+  hash <- liftIO getLocationHash
+  change <- getLocationHashChangeEvent
+  holdDyn hash change
 
 -- | Returns an event that triggers when the url changes
-getLocationChangeEvent :: MonadWidget t m => m (Event t Text)
-getLocationChangeEvent = do
+getLocationHashChangeEvent :: MonadWidget t m => m (Event t Text)
+getLocationHashChangeEvent = do
   (event, trigger) <- newTriggerEvent
-  liftIO $ setOnLocationChange trigger
+  liftIO $ setOnLocationHashChange trigger
   pure event
 
-setOnLocationChange :: (Text -> IO ()) -> IO ()
-setOnLocationChange onTagChange = do
+setOnLocationHashChange :: (Text -> IO ()) -> IO ()
+setOnLocationHashChange onTagChange = do
   cb <- asyncCallback1 callback
   js_addLocationEvent cb
   where
@@ -63,12 +76,8 @@ setOnLocationChange onTagChange = do
         Just str -> onTagChange str
         Nothing -> pure ()
 
-
 setLocation :: Text -> IO ()
 setLocation = js_setWindowLocation . pToJSVal
-
-getLocationHash :: IO Text
-getLocationHash = (Text.drop 1 . Text.dropWhile (/='#')) <$> getLocation
 
 changeLocationHash :: Text -> IO ()
 changeLocationHash newHash = do

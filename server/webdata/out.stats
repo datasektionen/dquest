@@ -2,32 +2,33 @@ code size summary per package:
 
 aeson-0.11.3.0-W9M6pafeGiE4wY7dgZsHH:862075
 attoparsec-0.13.1.0-FMbTiXvue1s3ZYBlEX83Hr:151340
-base:                    580104
+base:                    661271
 bimap-0.3.2-HupiXUJFElBIXTr3rCRf9y:4646
 bytestring-0.10.8.1-5wktHSR60zC2wTr02OpyVU:40458
-client-0.1.0.0-80Z2es2OnGa1Qj5Q1IyWYr:277052
+client-0.1.0.0-JkRNDb6OExT2c6CrhteAir:562416
 containers-0.5.7.1-9AY76Rzb1QLJmP8p4wSZRz:169684
+deepseq-1.4.2.0-47yvsc92PQF1rYmebWoAXZ:652
 dependent-map-0.2.4.0-JQogJkCWcm51zbhFvdN4TV:113186
 dependent-sum-0.3.2.2-7nS29TvovqDNS76jfcaer:12371
-ghc-prim:                39049
-ghcjs-base-0.2.0.0-65slZm2XSp1Awn5V09Oahe:7532
-ghcjs-dom-0.2.4.0-L0IGsyRW26RJ27adyCcgZY:155481
+ghc-prim:                42997
+ghcjs-base-0.2.0.0-65slZm2XSp1Awn5V09Oahe:20621
+ghcjs-dom-0.2.4.0-L0IGsyRW26RJ27adyCcgZY:156415
 ghcjs-prim-0.1.0.0-IFhsWclGfLr1HfhUvIVylA:10712
-integer-gmp:             80946
-main:                    33726
+integer-gmp:             85493
+main:                    55694
 prim-uniq-0.1.0.1-Lbg7Imujn019qkjLCx908j:2786
 primitive-0.6.1.0-PBvNfnj6B81wEvI5CBk0H:2323
 ref-tf-0.4.0.1-3hM7hnw7bOB1FwMAOCGwpN:1286
-reflex-0.5.0-G7AWLFvgrSKB7dNbVX2W5a:1068375
-reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN:943817
-scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7:201155
-shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7:212432
-text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P:119277
+reflex-0.5.0-G7AWLFvgrSKB7dNbVX2W5a:1032198
+reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN:922005
+scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7:232663
+shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7:208402
+text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P:142409
 these-0.7.3-DYnXBDXpZLCHk3K1Pi3bet:3002
-time-1.6.0.1-Lja9T8bqIudL0xdsRMOCyg:45795
+time-1.6.0.1-Lja9T8bqIudL0xdsRMOCyg:393343
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB:24632
 unordered-containers-0.2.7.2-LeYXliaHpH7Hgsi57JMhxc:5494
-vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0:68622
+vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0:68928
 
 
 code size per module:
@@ -60,7 +61,7 @@ base
     Control.Monad.Fix:                  570
     Control.Monad.IO.Class:             598
     Data.Either:                        595
-    Data.Fixed:                         11367
+    Data.Fixed:                         12056
     Data.Functor.Product:               219
     Data.List.NonEmpty:                 696
     Data.Maybe:                         2404
@@ -85,7 +86,8 @@ base
     GHC.Exception:                      16620
     GHC.Fingerprint:                    1459
     GHC.Fingerprint.Type:               724
-    GHC.Float:                          253
+    GHC.Float:                          45192
+    GHC.Float.ConversionUtils:          3298
     GHC.Foreign:                        12172
     GHC.ForeignPtr:                     1901
     GHC.Generics:                       1730
@@ -95,23 +97,25 @@ base
     GHC.IO.Device:                      1248
     GHC.IO.Encoding:                    958
     GHC.IO.Encoding.Failure:            617
+    GHC.IO.Encoding.Latin1:             1869
     GHC.IO.Encoding.Types:              983
     GHC.IO.Encoding.UTF8:               60752
     GHC.IO.Exception:                   22664
     GHC.IO.FD:                          34543
     GHC.IO.Handle:                      296
     GHC.IO.Handle.FD:                   7437
-    GHC.IO.Handle.Internals:            27261
-    GHC.IO.Handle.Types:                3466
+    GHC.IO.Handle.Internals:            40618
+    GHC.IO.Handle.Text:                 15616
+    GHC.IO.Handle.Types:                3715
     GHC.IO.Unsafe:                      370
     GHC.IORef:                          159
     GHC.Int:                            10714
-    GHC.List:                           11761
+    GHC.List:                           13286
     GHC.MVar:                           174
     GHC.Num:                            3250
     GHC.Ptr:                            610
-    GHC.Read:                           20082
-    GHC.Real:                           33808
+    GHC.Read:                           17807
+    GHC.Real:                           34950
     GHC.ST:                             2250
     GHC.STRef:                          620
     GHC.Show:                           31023
@@ -119,7 +123,7 @@ base
     GHC.Stack.Types:                    1491
     GHC.Storable:                       1475
     GHC.TopHandler:                     12934
-    GHC.Unicode:                        1753
+    GHC.Unicode:                        2511
     GHC.Weak:                           174
     GHC.Word:                           17857
     Numeric:                            5098
@@ -142,13 +146,17 @@ bytestring-0.10.8.1-5wktHSR60zC2wTr02OpyVU
     Data.ByteString.Internal:           10857
     Data.ByteString.Lazy.Internal:      1019
 
-client-0.1.0.0-80Z2es2OnGa1Qj5Q1IyWYr
-    Admin.QuestEdit:                    172164
-    Display.Hero:                       16061
-    Display.Quest:                      8520
-    ServerApi:                          18217
-    Util:                               17458
-    Views:                              44632
+client-0.1.0.0-JkRNDb6OExT2c6CrhteAir
+    Admin.QuestEdit:                    172066
+    DQuest.Nav:                         97883
+    DQuest.ServerApi:                   26400
+    DSekt.Methone:                      22294
+    Display.Hero:                       16621
+    Display.Quest:                      23553
+    Util.Cookie:                        120093
+    Util.Location:                      7694
+    Util.Widgets:                       19975
+    Views:                              55837
 
 containers-0.5.7.1-9AY76Rzb1QLJmP8p4wSZRz
     Data.IntMap.Base:                   24825
@@ -156,6 +164,9 @@ containers-0.5.7.1-9AY76Rzb1QLJmP8p4wSZRz
     Data.Map.Base:                      121778
     Data.Map.Strict:                    12589
     Data.Set.Base:                      113
+
+deepseq-1.4.2.0-47yvsc92PQF1rYmebWoAXZ
+    Control.DeepSeq:                    652
 
 dependent-map-0.2.4.0-JQogJkCWcm51zbhFvdN4TV
     Data.Dependent.Map:                 58048
@@ -168,21 +179,24 @@ dependent-sum-0.3.2.2-7nS29TvovqDNS76jfcaer
 
 ghc-prim
     GHC.CString:                        4516
-    GHC.Classes:                        28626
+    GHC.Classes:                        32427
     GHC.IntWord64:                      761
     GHC.Tuple:                          2809
-    GHC.Types:                          2337
+    GHC.Types:                          2484
 
 ghcjs-base-0.2.0.0-65slZm2XSp1Awn5V09Oahe
     Data.JSString.Text:                 1172
     GHCJS.Buffer:                       715
-    GHCJS.Marshal:                      3805
+    GHCJS.Foreign.Internal:             578
+    GHCJS.Internal.Types:               243
+    GHCJS.Marshal:                      15888
     GHCJS.Marshal.Internal:             1840
+    GHCJS.Marshal.Pure:                 185
 
 ghcjs-dom-0.2.4.0-L0IGsyRW26RJ27adyCcgZY
     GHCJS.DOM:                          4926
     GHCJS.DOM.EventM:                   2286
-    GHCJS.DOM.JSFFI.Generated.Document: 3497
+    GHCJS.DOM.JSFFI.Generated.Document: 4312
     GHCJS.DOM.JSFFI.Generated.Element:  30844
     GHCJS.DOM.JSFFI.Generated.Enums:    2603
     GHCJS.DOM.JSFFI.Generated.Event:    816
@@ -194,17 +208,17 @@ ghcjs-dom-0.2.4.0-L0IGsyRW26RJ27adyCcgZY
     GHCJS.DOM.JSFFI.Generated.Window:   1386
     GHCJS.DOM.JSFFI.Generated.XMLHttpRequest:5941
     GHCJS.DOM.JSFFI.XMLHttpRequest:     6741
-    GHCJS.DOM.Types:                    86455
+    GHCJS.DOM.Types:                    86574
 
 ghcjs-prim-0.1.0.0-IFhsWclGfLr1HfhUvIVylA
     GHCJS.Prim:                         6385
     GHCJS.Prim.Internal:                4327
 
 integer-gmp
-    GHC.Integer.Type:                   80946
+    GHC.Integer.Type:                   85493
 
 main
-    Main:                               33726
+    Main:                               55694
 
 prim-uniq-0.1.0.1-Lbg7Imujn019qkjLCx908j
     Unsafe.Unique.Prim:                 1053
@@ -220,28 +234,28 @@ ref-tf-0.4.0.1-3hM7hnw7bOB1FwMAOCGwpN
 reflex-0.5.0-G7AWLFvgrSKB7dNbVX2W5a
     Data.Functor.Misc:                  15723
     Data.WeakBag:                       1556
-    Reflex.Class:                       48706
+    Reflex.Class:                       48509
     Reflex.Dynamic:                     12681
-    Reflex.Host.Class:                  3156
+    Reflex.Host.Class:                  2720
     Reflex.Patch:                       5633
-    Reflex.PerformEvent.Base:           53858
+    Reflex.PerformEvent.Base:           30122
     Reflex.PerformEvent.Class:          4592
     Reflex.PostBuild.Base:              41279
     Reflex.PostBuild.Class:             1030
-    Reflex.Requester.Base:              69044
+    Reflex.Requester.Base:              63423
     Reflex.Requester.Class:             4001
-    Reflex.Spider.Internal:             805362
+    Reflex.Spider.Internal:             799175
     Reflex.TriggerEvent.Base:           375
     Reflex.TriggerEvent.Class:          1379
 
 reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN
-    Foreign.JavaScript.TH:              31067
+    Foreign.JavaScript.TH:              5601
     Reflex.Dom.Builder.Class:           25339
     Reflex.Dom.Builder.Class.Events:    140070
     Reflex.Dom.Builder.Immediate:       334500
-    Reflex.Dom.Internal:                26645
+    Reflex.Dom.Internal:                28275
     Reflex.Dom.Internal.Foreign:        682
-    Reflex.Dom.Widget.Basic:            149625
+    Reflex.Dom.Widget.Basic:            151649
     Reflex.Dom.Widget.Input:            77400
     Reflex.Dom.Xhr:                     145499
     Reflex.Dom.Xhr.Exception:           4330
@@ -250,22 +264,22 @@ reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN
 
 scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7
     Data.ByteString.Builder.Scientific: 76734
-    Data.Scientific:                    5576
+    Data.Scientific:                    37084
     Data.Text.Lazy.Builder.Scientific:  110285
     Math.NumberTheory.Logarithms:       4291
     Utils:                              4269
 
 shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7
-    DQuest.Data.Comment:                25495
-    DQuest.Data.Difficulty:             53454
+    DQuest.Data.Comment:                17617
+    DQuest.Data.Difficulty:             52077
     DQuest.Data.Dummies:                708
-    DQuest.Data.Hero:                   1986
+    DQuest.Data.Hero:                   35121
     DQuest.Data.ProtoQuest:             15222
-    DQuest.Data.Quest:                  74467
+    DQuest.Data.Quest:                  46557
     DQuest.Data.Reward:                 41100
 
 text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P
-    Data.Text:                          23193
+    Data.Text:                          47093
     Data.Text.Array:                    1511
     Data.Text.Encoding:                 5453
     Data.Text.Encoding.Error:           6989
@@ -273,13 +287,13 @@ text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P
     Data.Text.Internal.Builder:         7508
     Data.Text.Internal.Builder.Int.Digits:834
     Data.Text.Internal.Fusion.Common:   1382
-    Data.Text.Internal.Fusion.Size:     863
-    Data.Text.Internal.Fusion.Types:    1020
+    Data.Text.Internal.Fusion.Size:     1485
+    Data.Text.Internal.Fusion.Types:    2649
     Data.Text.Internal.Lazy:            883
     Data.Text.Lazy:                     1706
     Data.Text.Lazy.Builder.Int:         43635
     Data.Text.Lazy.Builder.RealFloat:   389
-    Data.Text.Show:                     21648
+    Data.Text.Show:                     18629
     Data.Text.Unsafe:                   228
 
 these-0.7.3-DYnXBDXpZLCHk3K1Pi3bet
@@ -289,11 +303,15 @@ these-0.7.3-DYnXBDXpZLCHk3K1Pi3bet
 time-1.6.0.1-Lja9T8bqIudL0xdsRMOCyg
     Data.Time.Calendar.Gregorian:       4980
     Data.Time.Calendar.MonthDay:        5507
-    Data.Time.Calendar.OrdinalDate:     11010
+    Data.Time.Calendar.OrdinalDate:     23931
     Data.Time.Calendar.Private:         3238
+    Data.Time.Calendar.WeekDate:        6406
+    Data.Time.Clock.POSIX:              1588
     Data.Time.Clock.UTC:                336
-    Data.Time.LocalTime.LocalTime:      6643
-    Data.Time.LocalTime.TimeOfDay:      12787
+    Data.Time.Format:                   317512
+    Data.Time.Format.Locale:            6755
+    Data.Time.LocalTime.LocalTime:      8785
+    Data.Time.LocalTime.TimeOfDay:      13011
     Data.Time.LocalTime.TimeZone:       1294
 
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB
@@ -315,10 +333,10 @@ vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0
     Data.Vector.Generic.Base:           1375
     Data.Vector.Generic.Mutable.Base:   2283
     Data.Vector.Generic.New:            342
-    Data.Vector.Internal.Check:         5058
-    Data.Vector.Mutable:                38501
+    Data.Vector.Internal.Check:         5061
+    Data.Vector.Mutable:                38804
 
 
 
-packed metadata: 934376
+packed metadata: 1034279
 

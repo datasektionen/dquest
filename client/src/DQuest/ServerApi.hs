@@ -14,6 +14,11 @@ import Data.Maybe
 
 import Data.Aeson (ToJSON, FromJSON)
 
+import Util.Cookie
+
+import DQuest.Data.Hero(Hero)
+
+import Control.Monad.IO.Class
 
 getAllQuests :: MonadWidget t m => Event t a ->  m (Dynamic t [Quest])
 getAllQuests trigger = do
@@ -37,3 +42,17 @@ genericJsonPost trigger toUrl toData =
   where
     req = toReq <$> trigger
     toReq a = postJson (toUrl a) (toData a)
+
+
+
+-- | Retrieves the user if it can. Defaults to Nothing.
+getCurrentHero :: MonadWidget t m => m (Dynamic t (Maybe Hero))
+getCurrentHero = do
+  mAuthCookie <- liftIO $ getCookie "auth"
+  case mAuthCookie of
+    Nothing -> pure (constDyn Nothing)
+    Just "" -> pure (constDyn Nothing)
+    Just authCode -> do
+      pbe <- getPostBuild
+      resp <- getAndDecode (const "/hero/identify" <$> pbe)
+      holdDyn Nothing resp

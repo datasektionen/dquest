@@ -15,6 +15,8 @@ import Data.Text (Text)
 import qualified Data.Text as Text
 
 import Control.Lens
+import Data.Monoid
+
 
 dataInput :: (MonadWidget t m, Read a) => m (Dynamic t (Maybe a))
 dataInput = do
@@ -53,6 +55,13 @@ titled title inner = do
   breakEl
   pure res
 
+
+divID :: MonadWidget t m => Text -> m a -> m a
+divID id = elAttr "div" ("id" =: id)
+
+divIDClass :: MonadWidget t m => Text -> Text -> m a -> m a
+divIDClass id classes = elAttr "div" ("id" =: ( "#" <> id) <>
+                                "class" =: classes)
 
 {-| This is an abstraction for a widget that creates a list of contents.
 -}

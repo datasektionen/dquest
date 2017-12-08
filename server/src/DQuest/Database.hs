@@ -16,8 +16,10 @@ import Data.Bson as Bson
 import DQuest.Data
 import qualified DQuest.Data.ProtoQuest as PQ
 import qualified DQuest.Data.Quest as Quest
+import qualified DQuest.Data.Hero as Hero
 import qualified Data.Aeson as Aeson
 
+import Data.Text (Text)
 import qualified Data.Text as Text
 
 import qualified Data.Char as Char
@@ -51,7 +53,9 @@ run action = do
   close pipe
   return res
 
-toData = (Aeson.fromJSON . Aeson.Object . toAeson)
+toData :: (Aeson.FromJSON a) => Bson.Document -> Aeson.Result a
+toData = Aeson.fromJSON . Aeson.Object . toAeson
+
 toDBData a = toBson o
   where
     (Aeson.Object o) = Aeson.toJSON a
@@ -93,9 +97,34 @@ newQuest pq = run $ do
   where
     bson = toDBData pq
     insertData = exclude ["id"] bson
-{-
-getHero :: KthID -> IO (Maybe Hero)
+
+getHero :: Text -> IO (Maybe Hero)
 getHero kthID = run $ do
-  maybeRes <- findOne ["kthid" =: kthID] userTable
-  pure $ maybeRes >>= toAeson & Aeson.decode
--}
+  maybeRes <- findOne (select ["kthid" =: kthID] userTable)
+  pure $ maybeRes >>= resultToMaybe . toData
+  where
+    resultToMaybe (Aeson.Error _) = Nothing
+    resultToMaybe (Aeson.Success a) = Just a
+
+
+insertHero :: Hero -> IO Hero
+insertHero h = do
+  mHero  <- getHero (Hero.kthid h)
+  case mHero of
+    Just a -> pure a
+    Nothing -> run $ do
+      insert userTable (toDBData h)
+      pure h
+
+-- | Tries to find a hero by its kthid, if it doesn't exit it creates
+-- a new one and inserts it into the db
+findOrInsertHero :: Text -> IO Hero
+findOrInsertHero kthid = do
+  mHero <- getHero kthid
+  case mHero of
+    Just a -> pure a
+    Nothing -> do
+      h <- Hero.blankHero kthid
+      run $ do
+        insert userTable (toDBData h)
+        pure h

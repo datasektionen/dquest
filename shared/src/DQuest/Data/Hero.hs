@@ -6,7 +6,7 @@ import Data.Aeson
 import GHC.Generics
 import Data.Text (Text)
 
-import Data.Time.Clock (UTCTime)
+import Data.Time.Clock (UTCTime, getCurrentTime )
 
 import DQuest.Data.Reward
 import Data.List
@@ -38,3 +38,14 @@ totalEXP = maybe 0 fst . findReward XP
 
 level :: Hero -> Level
 level =  (`div`100) . totalEXP
+
+
+blankHero :: Text -> IO Hero
+blankHero id = do
+  t <- getCurrentTime
+  pure $ Hero
+    { kthid = id
+    , alias = id
+    , lastVisit = t
+    , backpack = []
+    }

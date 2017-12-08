@@ -16,12 +16,12 @@ import qualified Data.Text as Text
 
 questWidget :: MonadWidget t m => Quest -> m ()
 questWidget quest =
-  el "div" $ do
-      el "div" $ text (Quest.title quest)
-      el "div" $ text (Quest.description quest)
-      el "div" $ mapM_ pic (Quest.assigned quest)
+  divClass "quest-box" $ do
+      divClass "title" $ el "h2" $ text (Quest.title quest)
+      divClass "description" $ text (Quest.description quest)
+      divClass "suscribed" $ mapM_ pic (Quest.assigned quest)
       _ <- button "Assign yourself!"
       blank
   where
-    pic kthID = elAttr "img" ("src" =: dummyImage <> "class" =: "") blank
-    dummyImage = "http://i.kinja-img.com/gawker-media/image/upload/s--uJCJoTTM--/19cn7p7ve71yxjpg.jpg"
+    imgURL kthID = "http://zfinger.sips.datasektionen.se/user/" <> kthID <>  "/image"
+    pic kthID = elAttr "img" ("src" =: imgURL kthID <> "class" =: "profile-pic") blank

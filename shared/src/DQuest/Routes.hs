@@ -21,7 +21,9 @@ import Datasektionen.Types
 import DQuest.Data
 
 import Data.ByteString (ByteString)
+import qualified Data.Text.Encoding as Text
 
+import Servant.DQuestTypes
 {-
 
 -}
@@ -37,11 +39,16 @@ type QuestNew = "new" :> ReqBody '[JSON] ProtoQuest :> Post '[JSON] Quest
 
 type QuestUpdate = "update" :> Capture "dbID" Text :> ReqBody '[JSON] ProtoQuest :> Post '[JSON]  Bool
 
-type JsonAPI = "quest" :> (QuestLookup :<|> QuestNew :<|> QuestUpdate)
+type AssignToQuest = "assign" :> Capture "dbID" Text :> Header "Cookie" LoginCookie :> Get '[JSON] Bool
+type JsonAPI =  ("quest" :> (QuestLookup :<|> QuestNew :<|> QuestUpdate :<|> AssignToQuest))
+           :<|> HeroJsonApi
 
+type HeroJsonApi =
+  "hero" :> ("identify" :>  Header "Cookie" LoginCookie :> Get '[JSON] (Maybe Hero))
 
 type Index = Get '[HTML] Blob
 type PublicDir = Raw
+
 
 type ServerApi = JsonAPI :<|> Index :<|> PublicDir
 

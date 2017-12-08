@@ -1,0 +1,78 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: url('https://wallpapercave.com/wp/b7IH6xr.jpg');
+}
+
+
+#content{
+    positon: relative;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    background: none;
+    padding-top: 10px;
+
+}
+
+.hero-box {
+    float: left;
+    width: 300px;
+    background: white;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    -moz-box-shadow: 0 0 3px #888;
+    -webkit-box-shadow: 0 0 3px #888;
+    box-shadow: 0px 0px 3px #88;
+
+}
+
+.hero-info {
+
+}
+
+.hero-info .level-nr {
+
+}
+
+.hero-info .exp-bar {
+
+}
+
+
+.quest-wrapper {
+    margin-left: 310px;
+}
+
+.quest-wrapper .search-area{
+    padding-bottom: 20px;
+}
+.search-area .search-content {
+    background: #fff;
+    width: auto;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 2px;
+}
+
+.quest-wrapper > .quest-box{
+    width: 250px;
+    height: 400px;
+    float: left;
+    background: #fff;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+
+
+.quest-box > .profile-pic {
+    opacity: 0.7;
+    height: 30px;
+    width: 30px;
+}
+
+.quest-box > .profile-pic:hover{
+    opacity: 1;
+}

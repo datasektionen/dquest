@@ -35,6 +35,8 @@ library
                      , aeson
                      , data-default
                      , ghcjs-base
+                     , time
+
   default-language:    Haskell2010
   default-extensions: OverloadedStrings
 
