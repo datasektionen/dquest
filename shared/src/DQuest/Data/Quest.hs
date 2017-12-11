@@ -19,9 +19,10 @@ import qualified DQuest.Data.QuestGiver as QuestGiver
 import DQuest.Data.Difficulty
 
 type Tag = Text
+type QuestId = Text
 
 data Quest = Quest
-             { id          :: Text
+             { id          :: QuestId
              , title       :: Text
              , description :: Text
              , difficulty  :: Difficulty

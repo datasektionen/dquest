@@ -28,16 +28,17 @@ import Servant.DQuestTypes
 
 import DQuest.Routes
 import qualified DQuest.Data.Quest as Quest
-import DQuest.Data
 import qualified DQuest.Database as DB
+import DQuest.Data
+import qualified DQuest.Data.Hero as Hero
 
-import qualified DQuest.Data.Dummies as Dummy
-
+import DQuest.Identify
 import Network.Wai.Handler.Warp
 
 import Data.Text (Text)
 
-import qualified Datasektionen.Login as Login
+
+import Data.Monoid
 
 serveOn :: Port -> IO ()
 serveOn port = run port dQuestWebApp
@@ -61,9 +62,12 @@ questServer =  qQuestLookupServer
           :<|> questAssignServer
 
 questAssignServer :: Text -> Maybe LoginCookie -> Handler Bool
-questAssignServer questDbId maybeCookie = do
-  liftIO $ print maybeCookie
-  pure False
+questAssignServer questDbId (Just (LoginCookie token)) = liftIO $ do
+    mHero <- identify token
+    print mHero
+    maybe (pure False) (DB.addAssigned questDbId . Hero.kthid) mHero
+
+questAssignServer _ Nothing = pure False
 
 qQuestLookupServer =
         liftIO DB.activeQuests
@@ -71,17 +75,9 @@ qQuestLookupServer =
    :<|> liftIO DB.closedQuests
 
 
-qHeroServer = identify
-  where
-    loginApiKey = Login.LoginApiKey "dquest-server-7f550fe666424f1c90df53d5bddcbe1c"
-    identify Nothing = pure Nothing
-    identify (Just (LoginCookie token)) = do
-      liftIO $ print token
-      mUser <- liftIO $ Login.verifyToken loginApiKey (Login.KthToken token)
-      case mUser of
-        Nothing -> pure Nothing
-        Just user ->
-          liftIO $ Just <$> DB.findOrInsertHero (Login.user user)
+qHeroServer Nothing = pure Nothing
+qHeroServer (Just (LoginCookie token)) = liftIO $ identify token
+
 
 questNewServer :: ProtoQuest -> Handler Quest
 questNewServer protoQuest = do

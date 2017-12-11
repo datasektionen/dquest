@@ -1,11 +1,11 @@
 code size summary per package:
 
-aeson-0.11.3.0-W9M6pafeGiE4wY7dgZsHH:862075
+aeson-0.11.3.0-W9M6pafeGiE4wY7dgZsHH:862811
 attoparsec-0.13.1.0-FMbTiXvue1s3ZYBlEX83Hr:151340
-base:                    661271
+base:                    659663
 bimap-0.3.2-HupiXUJFElBIXTr3rCRf9y:4646
 bytestring-0.10.8.1-5wktHSR60zC2wTr02OpyVU:40458
-client-0.1.0.0-JkRNDb6OExT2c6CrhteAir:562416
+client-0.1.0.0-JkRNDb6OExT2c6CrhteAir:628221
 containers-0.5.7.1-9AY76Rzb1QLJmP8p4wSZRz:169684
 deepseq-1.4.2.0-47yvsc92PQF1rYmebWoAXZ:652
 dependent-map-0.2.4.0-JQogJkCWcm51zbhFvdN4TV:113186
@@ -15,17 +15,17 @@ ghcjs-base-0.2.0.0-65slZm2XSp1Awn5V09Oahe:20621
 ghcjs-dom-0.2.4.0-L0IGsyRW26RJ27adyCcgZY:156415
 ghcjs-prim-0.1.0.0-IFhsWclGfLr1HfhUvIVylA:10712
 integer-gmp:             85493
-main:                    55694
+main:                    55696
 prim-uniq-0.1.0.1-Lbg7Imujn019qkjLCx908j:2786
 primitive-0.6.1.0-PBvNfnj6B81wEvI5CBk0H:2323
 ref-tf-0.4.0.1-3hM7hnw7bOB1FwMAOCGwpN:1286
 reflex-0.5.0-G7AWLFvgrSKB7dNbVX2W5a:1032198
 reflex-dom-0.4-6IT1oXUa3fy55taMESMdpN:922005
 scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7:232663
-shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7:208402
-text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P:142409
+shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7:264489
+text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P:153232
 these-0.7.3-DYnXBDXpZLCHk3K1Pi3bet:3002
-time-1.6.0.1-Lja9T8bqIudL0xdsRMOCyg:393343
+time-1.6.0.1-Lja9T8bqIudL0xdsRMOCyg:382818
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB:24632
 unordered-containers-0.2.7.2-LeYXliaHpH7Hgsi57JMhxc:5494
 vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0:68928
@@ -40,7 +40,7 @@ aeson-0.11.3.0-W9M6pafeGiE4wY7dgZsHH
     Data.Aeson.Parser.Time:             221029
     Data.Aeson.Types.Class:             3415
     Data.Aeson.Types.Generic:           227398
-    Data.Aeson.Types.Instances:         6509
+    Data.Aeson.Types.Instances:         7245
     Data.Aeson.Types.Internal:          20893
 
 attoparsec-0.13.1.0-FMbTiXvue1s3ZYBlEX83Hr
@@ -118,7 +118,7 @@ base
     GHC.Real:                           34950
     GHC.ST:                             2250
     GHC.STRef:                          620
-    GHC.Show:                           31023
+    GHC.Show:                           29415
     GHC.Stack.CCS:                      3971
     GHC.Stack.Types:                    1491
     GHC.Storable:                       1475
@@ -147,16 +147,17 @@ bytestring-0.10.8.1-5wktHSR60zC2wTr02OpyVU
     Data.ByteString.Lazy.Internal:      1019
 
 client-0.1.0.0-JkRNDb6OExT2c6CrhteAir
-    Admin.QuestEdit:                    172066
     DQuest.Nav:                         97883
-    DQuest.ServerApi:                   26400
+    DQuest.ServerApi:                   32297
+    DQuest.Widgets.Hero:                18349
+    DQuest.Widgets.Quest:               107076
+    DQuest.Widgets.QuestEdit:           113831
+    DQuest.Widgets.Search:              32950
     DSekt.Methone:                      22294
-    Display.Hero:                       16621
-    Display.Quest:                      23553
     Util.Cookie:                        120093
     Util.Location:                      7694
-    Util.Widgets:                       19975
-    Views:                              55837
+    Util.Widgets:                       17546
+    Views:                              58208
 
 containers-0.5.7.1-9AY76Rzb1QLJmP8p4wSZRz
     Data.IntMap.Base:                   24825
@@ -218,7 +219,7 @@ integer-gmp
     GHC.Integer.Type:                   85493
 
 main
-    Main:                               55694
+    Main:                               55696
 
 prim-uniq-0.1.0.1-Lbg7Imujn019qkjLCx908j
     Unsafe.Unique.Prim:                 1053
@@ -271,15 +272,14 @@ scientific-0.3.4.9-3BpR9ETsBN0En6PwfRuei7
 
 shared-0.1.0.2-B81DAmLiIn87N4YQH4TLt7
     DQuest.Data.Comment:                17617
-    DQuest.Data.Difficulty:             52077
-    DQuest.Data.Dummies:                708
-    DQuest.Data.Hero:                   35121
+    DQuest.Data.Difficulty:             118584
+    DQuest.Data.Hero:                   25409
     DQuest.Data.ProtoQuest:             15222
     DQuest.Data.Quest:                  46557
     DQuest.Data.Reward:                 41100
 
 text-1.2.2.1-K5kKypz1wJJhsTy1Ol15P
-    Data.Text:                          47093
+    Data.Text:                          57916
     Data.Text.Array:                    1511
     Data.Text.Encoding:                 5453
     Data.Text.Encoding.Error:           6989
@@ -301,17 +301,17 @@ these-0.7.3-DYnXBDXpZLCHk3K1Pi3bet
     Data.These:                         864
 
 time-1.6.0.1-Lja9T8bqIudL0xdsRMOCyg
-    Data.Time.Calendar.Gregorian:       4980
+    Data.Time.Calendar.Gregorian:       1821
     Data.Time.Calendar.MonthDay:        5507
     Data.Time.Calendar.OrdinalDate:     23931
-    Data.Time.Calendar.Private:         3238
+    Data.Time.Calendar.Private:         3053
     Data.Time.Calendar.WeekDate:        6406
     Data.Time.Clock.POSIX:              1588
     Data.Time.Clock.UTC:                336
     Data.Time.Format:                   317512
     Data.Time.Format.Locale:            6755
-    Data.Time.LocalTime.LocalTime:      8785
-    Data.Time.LocalTime.TimeOfDay:      13011
+    Data.Time.LocalTime.LocalTime:      4287
+    Data.Time.LocalTime.TimeOfDay:      10328
     Data.Time.LocalTime.TimeZone:       1294
 
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB
@@ -338,5 +338,5 @@ vector-0.11.0.0-KJzdD0x8rviArqGbBh5Ng0
 
 
 
-packed metadata: 1034279
+packed metadata: 1038878
 

@@ -17,6 +17,11 @@ library
   hs-source-dirs:      src
   exposed-modules:     DQuest.Server
                      , DQuest.Database
+                     , DQuest.Database.Hero
+                     , DQuest.Database.Quest
+                     , DQuest.Database.Util
+                     , DQuest.Database.TableNames
+                     , DQuest.Identify
 
   other-modules:
                 Datasektionen.Login.Types
@@ -24,6 +29,7 @@ library
               , Datasektionen.Login
               , Datasektionen.Pls
               , Servant.Ext
+
 
   build-depends:       base >= 4.7 && < 5
                      , shared

@@ -15,8 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Display.Hero, Display.Quest
-                     , Admin.QuestEdit
+  exposed-modules:     DQuest.Widgets.Hero, DQuest.Widgets.Quest
+                     , DQuest.Widgets.QuestEdit, DQuest.Widgets.Search
                      , Util
                      , Util.Widgets
                      , Util.Location

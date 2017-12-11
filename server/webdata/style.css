@@ -56,23 +56,46 @@ body{
     border-radius: 2px;
 }
 
+.search-area .search-content input[type="text"] {
+    width: 700px;
+}
 .quest-wrapper > .quest-box{
     width: 250px;
-    height: 400px;
+    height: auto;
     float: left;
     background: #fff;
     border-radius: 3px;
     padding: 5px;
 }
 
-
-
-.quest-box > .profile-pic {
-    opacity: 0.7;
-    height: 30px;
-    width: 30px;
+.quest-wrapper .quest-box h2{
+    color: #ec5f99 !important;
+    margin-top: 10px !important;
+    margin-bottom: 5px;
 }
+
+.quest-box .difficulty span{
+    font-weight: bold;
+}
+.quest-box .description{
+    height: 100px;
+}
+.quest-box .assigned .profile-pic{
+    height: 25px;
+    width: 25px;
+    background-size: 100% auto !important;
+}
+
+.quest-box button{
+    width:100%;
+    margin-top: 3px;
+}
+
 
 .quest-box > .profile-pic:hover{
     opacity: 1;
+}
+
+.quest-box .h2{
+    margin-top: 5px;
 }

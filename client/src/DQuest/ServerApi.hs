@@ -35,6 +35,11 @@ updateQuest trigger = do
   resultEvent <- genericJsonPost trigger (("/quest/update/" <>) . snd) fst
   pure $ fromMaybe False <$> resultEvent
 
+acceptQuest :: MonadWidget t m => Event t Text -> m (Event t Bool)
+acceptQuest trigger = do
+  resp <- getAndDecode (("/quest/assign/" <>) <$> trigger)
+  pure $ maybe False id <$> resp
+
 -- | Function for genericly doing most json post request
 genericJsonPost :: (MonadWidget t m, ToJSON c, FromJSON b) => Event t a -> (a -> Text) -> (a -> c) -> m (Event t (Maybe b))
 genericJsonPost trigger toUrl toData =
