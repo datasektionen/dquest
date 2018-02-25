@@ -3,6 +3,7 @@
 module DQuest.ServerApi where
 
 import DQuest.Data.Quest (Quest)
+import qualified DQuest.Data.Quest as Quest
 import Reflex.Dom
 import DQuest.Data.ProtoQuest
 
@@ -20,11 +21,17 @@ import DQuest.Data.Hero(Hero)
 
 import Control.Monad.IO.Class
 
+getQuestByID :: MonadWidget t m => Quest.ID ->  m (Dynamic t (Maybe (Maybe Quest)))
+getQuestByID questID = do
+  (fake_event,trigger) <- newTriggerEvent
+  resp <- getAndDecode (const ("/quest/id/" <> questID) <$> fake_event)
+  liftIO $ trigger ()
+  holdDyn Nothing (Just <$> resp)
+
 getAllQuests :: MonadWidget t m => Event t a ->  m (Dynamic t [Quest])
 getAllQuests trigger = do
   resp <- getAndDecode (const "/quest/all" <$> trigger)
   holdDyn [] $ fromMaybe [] <$> resp
-
 
 createNewQuest :: MonadWidget t m => Event t ProtoQuest -> m (Event t (Maybe Quest))
 createNewQuest createEvent =

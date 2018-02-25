@@ -17,6 +17,8 @@ library
   hs-source-dirs:      src
   exposed-modules:     DQuest.Widgets.Hero, DQuest.Widgets.Quest
                      , DQuest.Widgets.QuestEdit, DQuest.Widgets.Search
+                     , DQuest.Widgets.QuestPage
+                     , DQuest.Util
                      , Util
                      , Util.Widgets
                      , Util.Location

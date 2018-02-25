@@ -21,14 +21,17 @@ library
                      , DQuest.Data.Quest
                      , DQuest.Data.QuestGiver
                      , DQuest.Data.Comment
-                     , DQuest.Data.Dummies
 
                      , DQuest.Data.Difficulty
                      , DQuest.Routes
                      , DQuest.Data
                      , Datasektionen.Types
+                     , Datasektionen.Zfinger
+
                      , Servant.Ext.Types
                      , Servant.DQuestTypes
+
+
 
   build-depends:       base >= 4.7 && < 5
                      , text

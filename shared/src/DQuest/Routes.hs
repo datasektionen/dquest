@@ -19,6 +19,7 @@ import Servant.Ext.Types
 
 import Datasektionen.Types
 import DQuest.Data
+import qualified DQuest.Data.Quest as Quest
 
 import Data.ByteString (ByteString)
 import qualified Data.Text.Encoding as Text
@@ -31,6 +32,7 @@ import Servant.DQuestTypes
 type QuestLookup =    "open"   :> Get '[JSON] [Quest]
                  :<|> "all"    :> Get '[JSON] [Quest]
                  :<|> "closed" :> Get '[JSON] [Quest]
+                 :<|> "id" :> Capture "quest-id" Quest.ID :> Get '[JSON] (Maybe Quest)
 
 type QuestKey = Capture "title" Text :> Capture "date" UTCTime
 -- type QuestModify = "modify" :> "description" :> QuestKey :> ReqBody '[JSON] Text :> POST '[JSON] Bool

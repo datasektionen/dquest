@@ -56,7 +56,7 @@ dQuestServer = jsonServer
 
 jsonServer = questServer :<|> qHeroServer
 
-questServer =  qQuestLookupServer
+questServer =  questLookupServer
           :<|> questNewServer
           :<|> questUpdateServer
           :<|> questAssignServer
@@ -69,11 +69,14 @@ questAssignServer questDbId (Just (LoginCookie token)) = liftIO $ do
 
 questAssignServer _ Nothing = pure False
 
-qQuestLookupServer =
+questLookupServer =
         liftIO DB.activeQuests
    :<|> liftIO DB.allQuests
    :<|> liftIO DB.closedQuests
-
+   :<|> (\ questId -> liftIO $  do
+            print questId
+            DB.getQuest questId
+        )
 
 qHeroServer Nothing = pure Nothing
 qHeroServer (Just (LoginCookie token)) = liftIO $ identify token

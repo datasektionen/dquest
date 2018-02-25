@@ -42,8 +42,6 @@ switchButton t1 t2 = do
     buttonSwitch True = button2
     buttonSwitch False = button1
 
-
-
 breakEl :: MonadWidget t m => m ()
 breakEl = el "br" blank
 
@@ -63,7 +61,26 @@ divIDClass :: MonadWidget t m => Text -> Text -> m a -> m a
 divIDClass id classes = elAttr "div" ("id" =: ( "#" <> id) <>
                                 "class" =: classes)
 
-{-| This is an abstraction for a widget that creates a list of contents.
--}
--- constructionTable :: MonadWidget t m => m (Event t i) -> m (Event t i) -> (i -> i -> Bool) -> [i] -> m (Dynamic t [i])
--- constructionTable createWidget listWidget
+textShow :: (MonadWidget t m, Show a) => a -> m ()
+textShow = text . Text.pack . show
+
+
+-- | Widget for foldable containers. Provides a header whth a folding
+-- indicator. When the header is clicked the content is shown / hidden
+foldWidget  :: MonadWidget t m => Text -> Bool -> m a -> m a
+foldWidget title defaultFolded content = divClass "fold-wrapper" $ do
+  rec (headerElem, foldedD) <- elAttr' "div" headerAttr $ do
+        let clickEvent = domEvent Click headerElem
+        foldedDyn <- foldDyn (\ _ prev -> not prev) defaultFolded clickEvent
+        let arrowDyn = fmap (\ b -> if b then  "▲" else "▼") foldedDyn
+        el "h3"  $ dynText (fmap (<> " " <> title) arrowDyn)
+        pure foldedDyn
+  let containerAttrDyn = (mappend defaultAttr) . foldedAttr <$> foldedD
+      defaultAttr = "class" =: "fold-content"
+  elDynAttr "div" containerAttrDyn content
+
+  where
+    foldedAttr True = "style" =: "display: none;"
+    foldedAttr False = mempty
+    headerAttr = mconcat ["class" =:  "fold-header"
+                         , "style" =: ""]

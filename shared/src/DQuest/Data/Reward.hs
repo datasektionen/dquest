@@ -19,3 +19,5 @@ data Reward = XP
             deriving (Show,Read,Eq,Generic, Ord)
 instance ToJSON Reward
 instance FromJSON Reward
+
+type BackPack = [(Quantity, Reward)]

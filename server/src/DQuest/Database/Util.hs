@@ -15,6 +15,7 @@ import Database.MongoDB    (Action, Document, Document, Value, Query, Selector, 
 
 import qualified Database.MongoDB  as  Mongo
 import Control.Monad.Trans (liftIO)
+import Control.Exception
 
 import System.Environment
 import Data.Aeson.Bson
@@ -58,7 +59,17 @@ run action = do
                                         "defaulting to " ++ defaultMongoURL)
   let url = maybe defaultMongoURL (\ s -> fromMaybe s (stripPrefix "mongodb://" s)) maybeEnvUrl
       mongoHost = Mongo.readHostPort url
-  pipe <- connect mongoHost
+
+      connectionExceptionHandler :: IOError -> IO a
+      connectionExceptionHandler e = do
+        putStrLn "ERROR: MongoDB connection failed to open"
+        print mongoHost
+        throw e
+
+  pipe <- connect mongoHost `catch` connectionExceptionHandler
   res <- access pipe master "dquest" action
   close pipe
   return res
+
+
+  where
